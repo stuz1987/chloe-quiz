@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌟 Chloe's Favourite Talent Quiz!</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: #0f0c29;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Slides ── */
+.slide {
+  display: none;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  text-align: center;
+  color: white;
+}
+.slide.active { display: flex; }
+
+/* ── Title Slide ── */
+#slide-title {
+  background: linear-gradient(135deg, #c0392b 0%, #8e1470 50%, #1a237e 100%);
+}
+
+.bounce {
+  display: inline-block;
+  animation: bounce 0.9s ease-in-out infinite alternate;
+  font-size: 3.5rem;
+}
+@keyframes bounce {
+  from { transform: translateY(0px) rotate(-5deg); }
+  to   { transform: translateY(-18px) rotate(5deg); }
+}
+
+.title-photo-wrap {
+  position: relative;
+  margin: 1rem 0;
+}
+.title-photo {
+  width: 200px;
+  height: 260px;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 20px;
+  border: 5px solid #ffd166;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+}
+.star-badge {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  background: #ffd166;
+  color: #333;
+  font-weight: 900;
+  font-size: 0.75rem;
+  padding: 5px 10px;
+  border-radius: 20px;
+  transform: rotate(10deg);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+}
+
+#slide-title h1 {
+  font-size: clamp(1.6rem, 4vw, 2.8rem);
+  font-weight: 900;
+  line-height: 1.2;
+  text-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+  max-width: 560px;
+}
+#slide-title p {
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  margin: 0.7rem 0 1.5rem;
+  opacity: 0.9;
+}
+
+.btn-start {
+  background: #ffd166;
+  color: #1a1a1a;
+  border: none;
+  padding: 0.9rem 3rem;
+  font-size: 1.4rem;
+  font-weight: 800;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 6px 0 #b38b00;
+  transition: transform 0.1s, box-shadow 0.1s;
+  letter-spacing: 0.5px;
+}
+.btn-start:hover  { transform: translateY(-3px); box-shadow: 0 9px 0 #b38b00; }
+.btn-start:active { transform: translateY(2px);  box-shadow: 0 3px 0 #b38b00; }
+
+/* ── Quiz Slides ── */
+.quiz-slide {
+  background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+}
+
+.topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(8px);
+  padding: 0.55rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  font-size: 1rem;
+  z-index: 200;
+  color: white;
+}
+.topbar .q-counter { color: #aaa; }
+.topbar .score-val { color: #ffd166; font-size: 1.1rem; }
+
+.quiz-inner {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  max-width: 900px;
+  width: 100%;
+  margin-top: 3rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.photo-col {
+  flex-shrink: 0;
+}
+.quiz-photo {
+  width: 220px;
+  height: 280px;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 18px;
+  border: 4px solid rgba(255,255,255,0.15);
+  box-shadow: 0 10px 35px rgba(0,0,0,0.55);
+  display: block;
+}
+.photo-tag {
+  margin-top: 8px;
+  background: #ffd166;
+  color: #1a1a1a;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.content-col {
+  flex: 1;
+  min-width: 280px;
+  max-width: 520px;
+  text-align: left;
+}
+
+.question-text {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 800;
+  line-height: 1.4;
+  margin-bottom: 1.1rem;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+}
+
+.opt-btn {
+  background: rgba(255,255,255,0.09);
+  color: white;
+  border: 2px solid rgba(255,255,255,0.18);
+  padding: 0.8rem 0.9rem;
+  font-size: clamp(0.85rem, 1.5vw, 1rem);
+  font-weight: 600;
+  border-radius: 14px;
+  cursor: default;
+  line-height: 1.35;
+  text-align: center;
+  transition: background 0.35s, border-color 0.35s, transform 0.25s;
+  user-select: none;
+}
+
+.opt-btn.correct {
+  background: #06d6a0;
+  border-color: #04b484;
+  animation: popCorrect 0.5s ease;
+}
+.opt-btn.wrong {
+  background: rgba(230,57,70,0.4);
+  border-color: #e63946;
+  opacity: 0.7;
+}
+@keyframes popCorrect {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.07); }
+  100% { transform: scale(1); }
+}
+
+.reveal-row {
+  margin-top: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-reveal {
+  background: linear-gradient(135deg, #e63946, #c62a2a);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.8rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 5px 0 #8b1a1a;
+  transition: transform 0.1s, box-shadow 0.1s;
+  letter-spacing: 0.3px;
+}
+.btn-reveal:hover  { transform: translateY(-2px); box-shadow: 0 7px 0 #8b1a1a; }
+.btn-reveal:active { transform: translateY(2px);  box-shadow: 0 2px 0 #8b1a1a; }
+.btn-reveal:disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.btn-next {
+  background: #ffd166;
+  color: #1a1a1a;
+  border: none;
+  padding: 0.75rem 1.8rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 5px 0 #b38b00;
+  transition: transform 0.1s, box-shadow 0.1s;
+  display: none;
+}
+.btn-next:hover  { transform: translateY(-2px); box-shadow: 0 7px 0 #b38b00; }
+.btn-next:active { transform: translateY(2px);  box-shadow: 0 2px 0 #b38b00; }
+
+.feedback-msg {
+  display: none;
+  margin-top: 0.9rem;
+  padding: 0.7rem 1rem;
+  border-radius: 12px;
+  font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+  font-weight: 700;
+  line-height: 1.4;
+}
+.feedback-msg.correct-fb {
+  background: rgba(6,214,160,0.18);
+  border: 2px solid #06d6a0;
+  color: #a8f0df;
+}
+.feedback-msg.wrong-fb {
+  background: rgba(230,57,70,0.15);
+  border: 2px solid #e63946;
+  color: #ffaaaa;
+}
+
+/* ── Results Slide ── */
+#slide-results {
+  background: linear-gradient(135deg, #c0392b 0%, #8e1470 50%, #1a237e 100%);
+}
+.results-photo {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 50%;
+  border: 6px solid #ffd166;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+  margin: 0.8rem 0;
+}
+.results-score {
+  font-size: clamp(3rem, 10vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1;
+  text-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+}
+.results-label {
+  font-size: 1rem;
+  opacity: 0.75;
+  margin-bottom: 0.3rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.results-msg {
+  font-size: clamp(1rem, 2.5vw, 1.35rem);
+  font-weight: 700;
+  max-width: 500px;
+  margin: 0.6rem 0 1.5rem;
+  line-height: 1.45;
+}
+.btn-restart {
+  background: rgba(255,255,255,0.18);
+  color: white;
+  border: 2px solid rgba(255,255,255,0.4);
+  padding: 0.7rem 1.8rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-restart:hover { background: rgba(255,255,255,0.28); }
+
+/* ── Confetti canvas ── */
+#confetti-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 999;
+}
+
+@media (max-width: 560px) {
+  .options-grid { grid-template-columns: 1fr; }
+  .quiz-photo   { width: 100%; height: 200px; object-position: 50% 20%; }
+  .content-col  { text-align: center; }
+  .reveal-row   { justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+
+<!-- ══════════════════════════════════════════════════
+     TITLE SLIDE
+══════════════════════════════════════════════════ -->
+<section class="slide active" id="slide-title">
+  <div class="bounce">⭐</div>
+
+  <div class="title-photo-wrap">
+    <img src="images/IMG_8760.JPG" alt="Chloe jumping" class="title-photo">
+    <div class="star-badge">NETBALL STAR 🏅</div>
+  </div>
+
+  <h1>🌟 Chloe's Favourite<br>Talent Quiz! 🌟</h1>
+  <p>How well does the class know our netball superstar?<br>Hands up if you think you know the answer! 🙋</p>
+
+  <button class="btn-start" onclick="startQuiz()">LET'S PLAY! 🚀</button>
+</section>
+
+<!-- Question slides injected here by JS -->
+<div id="quiz-container"></div>
+
+<!-- ══════════════════════════════════════════════════
+     RESULTS SLIDE
+══════════════════════════════════════════════════ -->
+<section class="slide" id="slide-results">
+  <div class="bounce">🏆</div>
+  <img src="images/IMG_8760.JPG" alt="Chloe" class="results-photo">
+  <p class="results-label">Final Score</p>
+  <div class="results-score" id="final-score">0/6</div>
+  <p class="results-msg" id="results-msg"></p>
+  <button class="btn-restart" onclick="restartQuiz()">🔄 Play Again!</button>
+</section>
+
+<script>
+/* ══════════════════════════════════════
+   QUIZ DATA
+══════════════════════════════════════ */
+const questions = [
+  {
+    photo:   "images/IMG_8760.JPG",
+    tag:     "📸 Chloe's first day of training!",
+    q:       "This is Chloe jumping on her VERY FIRST day of netball training — but how did she feel?",
+    answers: [
+      { text: "🥱 Completely bored — she'd rather be napping",       correct: false },
+      { text: "😬 A tiny bit nervous... but SOOO excited!",          correct: true  },
+      { text: "🤔 Confused — thought she was going to swimming",     correct: false },
+      { text: "😤 Already demanding to be team captain",             correct: false },
+    ],
+    correctMsg: "YES! Look at that JUMP! She was SO excited she was basically already flying! 🚀",
+    wrongMsg:   "Not quite! She was a little nervous but absolutely BURSTING with excitement — just look at that jump! 😄",
+  },
+  {
+    photo:   "images/IMG_8751.JPG",
+    tag:     "📸 Chloe in her position bib!",
+    q:       "The letters on Chloe's bib say WA. What does WA stand for in netball?",
+    answers: [
+      { text: "🦁 Wild Animal (gets to roam everywhere)",  correct: false },
+      { text: "🍉 Watermelon Addict (always hungry)",      correct: false },
+      { text: "🏅 Wing Attack",                            correct: true  },
+      { text: "😎 Wickedly Awesome (all of the above)",    correct: false },
+    ],
+    correctMsg: "Wing Attack! Chloe zooms up and down the wing like an absolute rocket! ⚡",
+    wrongMsg:   "Haha! Nice try — it's Wing Attack! Though 'Wickedly Awesome' is also 100% true! 😂",
+  },
+  {
+    photo:   "images/IMG_8756.JPG",
+    tag:     "📸 Chloe with a very important person!",
+    q:       "Who is this special person with Chloe?",
+    answers: [
+      { text: "👩‍⚕️ Dr. Netball — world-famous sports scientist",  correct: false },
+      { text: "🌟 Vicky — Chloe's amazing coach!",                correct: true  },
+      { text: "👩‍🍳 A celebrity chef who also loves netball",       correct: false },
+      { text: "🤷 A very tall stranger from the car park",         correct: false },
+    ],
+    correctMsg: "That's the legendary Coach Vicky! The mastermind behind all of Chloe's secret moves! 🌟",
+    wrongMsg:   "That's Coach Vicky! She's the one teaching Chloe all her superstar skills. The car park stranger is fictional (we think). 😂",
+  },
+  {
+    photo:   "images/IMG_8754.JPG",
+    tag:     "📸 Player of the Week — first ever goal! 🏆",
+    q:       "Chloe scored her FIRST EVER goal and won Player of the Week! One small question about that day…",
+    answers: [
+      { text: "☀️ Gorgeous sunshine — winners bring good weather",  correct: false },
+      { text: "🌈 A rainbow appeared the moment she scored",        correct: false },
+      { text: "🌧️ ABSOLUTELY DRENCHED in rain",                    correct: true  },
+      { text: "🌀 A mild tornado — she played through it",         correct: false },
+    ],
+    correctMsg: "SOAKING wet — and she STILL scored and won the trophy! Nothing stops our champion! 🏆💧",
+    wrongMsg:   "Nope — it was absolutely BUCKETING down with rain! But Chloe scored anyway like a total legend! 🌧️🏆",
+  },
+  {
+    photo:   "images/IMG_8758.JPG",
+    tag:     "📸 Super fans at the Sydney Swifts! 🏐",
+    q:       "When Chloe went to watch the Sydney Swifts play, what did the girls bring to cheer the team on?",
+    answers: [
+      { text: "🎺 A full 12-piece brass band",                      correct: false },
+      { text: "📋 Homemade 'Go Go Swifts!' signs",                 correct: true  },
+      { text: "🦜 A parrot trained to yell 'SWIFTS!'",             correct: false },
+      { text: "🎸 An electric guitar for a cheer anthem",          correct: false },
+    ],
+    correctMsg: "Homemade signs are the BEST kind of fan gear! Look at how loud they were! 📋🎉",
+    wrongMsg:   "Haha! It was homemade 'Go Go Swifts!' signs — though a trained parrot would have been INCREDIBLE. 🦜",
+  },
+  {
+    photo:   "images/IMG_8752.JPG",
+    tag:     "📸 The whole squad together! 🔴",
+    q:       "What is the name of the club where Chloe plays netball?",
+    answers: [
+      { text: "🌟 The Sydney Swifts (wishful thinking!)",   correct: false },
+      { text: "🚀 The Red Rockets",                         correct: false },
+      { text: "🔴 Northbridge",                             correct: true  },
+      { text: "😎 Team Chloe (her vote)",                   correct: false },
+    ],
+    correctMsg: "Northbridge Netball Club! Go the RED! 🔴 Let's hear it for the whole team! 🏅",
+    wrongMsg:   "It's Northbridge! You can even see it on their uniforms. Team Chloe would be a great name though! 😂",
+  },
+];
+
+/* ══════════════════════════════════════
+   STATE
+══════════════════════════════════════ */
+let score = 0;
+let revealed = false;
+
+/* ══════════════════════════════════════
+   BUILD ALL QUESTION SLIDES UPFRONT
+══════════════════════════════════════ */
+function buildSlides() {
+  const container = document.getElementById('quiz-container');
+  container.innerHTML = '';
+  questions.forEach((q, qi) => {
+    const slide = document.createElement('section');
+    slide.className = 'slide quiz-slide';
+    slide.id = `slide-q${qi}`;
+    slide.innerHTML = `
+      <div class="topbar">
+        <span class="q-counter">Question ${qi + 1} of ${questions.length}</span>
+        <span class="score-val" id="score-display-${qi}">⭐ Score: 0</span>
+      </div>
+      <div class="quiz-inner">
+        <div class="photo-col">
+          <img src="${q.photo}" alt="question photo" class="quiz-photo">
+          <div class="photo-tag">${q.tag}</div>
+        </div>
+        <div class="content-col">
+          <div class="question-text">${q.q}</div>
+          <div class="options-grid">
+            ${q.answers.map((a, ai) => `
+              <div class="opt-btn" id="opt-${qi}-${ai}">${a.text}</div>
+            `).join('')}
+          </div>
+          <div class="reveal-row">
+            <button class="btn-reveal" id="reveal-btn-${qi}" onclick="revealAnswer(${qi})">
+              🎉 Reveal the Answer!
+            </button>
+            <button class="btn-next" id="next-btn-${qi}" onclick="goNext(${qi})">
+              ${qi < questions.length - 1 ? 'Next Question ▶' : 'See Results! 🏆'}
+            </button>
+          </div>
+          <div class="feedback-msg" id="feedback-${qi}"></div>
+        </div>
+      </div>
+    `;
+    container.appendChild(slide);
+  });
+}
+
+/* ══════════════════════════════════════
+   REVEAL ANSWER
+══════════════════════════════════════ */
+function revealAnswer(qi) {
+  if (revealed) return;
+  revealed = true;
+
+  const q = questions[qi];
+
+  /* find the correct index */
+  const correctIdx = q.answers.findIndex(a => a.correct);
+
+  q.answers.forEach((a, ai) => {
+    const btn = document.getElementById(`opt-${qi}-${ai}`);
+    if (a.correct) {
+      btn.classList.add('correct');
+    } else {
+      btn.classList.add('wrong');
+    }
+  });
+
+  /* score — only increment if a correct answer was the one revealed
+     (in classroom mode we always reveal the right one, so always +1) */
+  score++;
+  document.getElementById(`score-display-${qi}`).textContent = `⭐ Score: ${score}`;
+
+  /* feedback */
+  const fb = document.getElementById(`feedback-${qi}`);
+  fb.style.display = 'block';
+  fb.className = 'feedback-msg correct-fb';
+  fb.textContent = '✅ ' + q.correctMsg;
+
+  /* hide reveal button, show next */
+  document.getElementById(`reveal-btn-${qi}`).disabled = true;
+  document.getElementById(`next-btn-${qi}`).style.display = 'inline-block';
+
+  launchConfetti();
+}
+
+/* ══════════════════════════════════════
+   NAVIGATION
+══════════════════════════════════════ */
+function startQuiz() {
+  score = 0;
+  revealed = false;
+  buildSlides();
+  document.getElementById('slide-title').classList.remove('active');
+  document.getElementById('slide-q0').classList.add('active');
+}
+
+function goNext(qi) {
+  revealed = false;
+  document.getElementById(`slide-q${qi}`).classList.remove('active');
+  const nextQi = qi + 1;
+  if (nextQi < questions.length) {
+    /* sync score display on next slide */
+    document.getElementById(`score-display-${nextQi}`).textContent = `⭐ Score: ${score}`;
+    document.getElementById(`slide-q${nextQi}`).classList.add('active');
+  } else {
+    showResults();
+  }
+}
+
+function showResults() {
+  document.getElementById('final-score').textContent = `${score}/${questions.length}`;
+
+  const msgs = [
+    /* 0 */ "Hmm... have you actually MET Chloe? 😂 Maybe sit next to her at lunch and take notes!",
+    /* 1 */ "1 out of 6... Chloe would like a word. 😄 Come back when you've studied her netball career!",
+    /* 2 */ "A couple right! You definitely know Chloe exists — that's a start! 🙌",
+    /* 3 */ "Half marks! You're a decent fan but Chloe's biggest supporters are doing better! 🏅",
+    /* 4 */ "4 out of 6! You're a proper Chloe fan! She'd be impressed! 🌟",
+    /* 5 */ "ALMOST PERFECT! 🎉 You basically know everything about Chloe... are you following her? 😂",
+    /* 6 */ "PERFECT SCORE! 🏆🌟 You are officially Chloe's BIGGEST FAN! She should sign your book!",
+  ];
+
+  document.getElementById('results-msg').textContent = msgs[score] || msgs[6];
+  document.getElementById('slide-results').classList.add('active');
+
+  setTimeout(launchConfetti, 100);
+  if (score === questions.length) {
+    setTimeout(launchConfetti, 600);
+    setTimeout(launchConfetti, 1100);
+  }
+}
+
+function restartQuiz() {
+  score = 0;
+  revealed = false;
+  document.getElementById('slide-results').classList.remove('active');
+  document.querySelectorAll('.quiz-slide').forEach(s => s.classList.remove('active'));
+  document.getElementById('slide-title').classList.add('active');
+}
+
+/* ══════════════════════════════════════
+   CONFETTI
+══════════════════════════════════════ */
+function launchConfetti() {
+  const canvas = document.getElementById('confetti-canvas');
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const ctx = canvas.getContext('2d');
+
+  const COLORS = ['#ffd166','#e63946','#06d6a0','#118ab2','#9b59b6','#ff6b6b','#ffffff','#f39c12'];
+  const pieces = Array.from({ length: 140 }, () => ({
+    x:    Math.random() * canvas.width,
+    y:    -10 - Math.random() * 80,
+    w:    Math.random() * 9 + 5,
+    h:    Math.random() * 6 + 3,
+    col:  COLORS[Math.floor(Math.random() * COLORS.length)],
+    vx:   (Math.random() - 0.5) * 5,
+    vy:   Math.random() * 3.5 + 2,
+    rot:  Math.random() * 360,
+    rspd: (Math.random() - 0.5) * 12,
+    op:   1,
+  }));
+
+  let frame = 0;
+  const MAX = 130;
+
+  (function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    frame++;
+    pieces.forEach(p => {
+      p.x   += p.vx;
+      p.y   += p.vy;
+      p.vy  += 0.08;
+      p.rot += p.rspd;
+      if (frame > MAX * 0.65) p.op -= 0.025;
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, p.op);
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot * Math.PI / 180);
+      ctx.fillStyle = p.col;
+      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.restore();
+    });
+    if (frame < MAX) requestAnimationFrame(animate);
+    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+  })();
+}
+
+window.addEventListener('resize', () => {
+  const c = document.getElementById('confetti-canvas');
+  c.width = window.innerWidth;
+  c.height = window.innerHeight;
+});
+</script>
+</body>
+</html>
