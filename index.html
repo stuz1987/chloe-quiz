@@ -3,276 +3,263 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🌟 Chloe's Favourite Talent Quiz!</title>
+<title>🌟 Chloe's Quiz!</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  background: #0f0c29;
+  font-family: 'Segoe UI', system-ui, sans-serif;
   min-height: 100vh;
   overflow: hidden;
+  background: #fff;
 }
 
 /* ── Slides ── */
-.slide {
-  display: none;
-  min-height: 100vh;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
-  text-align: center;
-  color: white;
-}
+.slide { display: none; min-height: 100vh; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; }
 .slide.active { display: flex; }
 
-/* ── Title Slide ── */
+/* ── Floating deco stars ── */
+.deco {
+  position: fixed; pointer-events: none; z-index: 0; user-select: none;
+  animation: floatStar 4s ease-in-out infinite alternate;
+}
+@keyframes floatStar {
+  from { transform: translateY(0) rotate(0deg); }
+  to   { transform: translateY(-14px) rotate(20deg); }
+}
+
+/* ══════════════════════════════════
+   TITLE SLIDE
+══════════════════════════════════ */
 #slide-title {
-  background: linear-gradient(135deg, #c0392b 0%, #8e1470 50%, #1a237e 100%);
-}
-
-.bounce {
-  display: inline-block;
-  animation: bounce 0.9s ease-in-out infinite alternate;
-  font-size: 3.5rem;
-}
-@keyframes bounce {
-  from { transform: translateY(0px) rotate(-5deg); }
-  to   { transform: translateY(-18px) rotate(5deg); }
-}
-
-.title-photo-wrap {
+  background: linear-gradient(135deg, #ff9ff3 0%, #a29bfe 50%, #74b9ff 100%);
   position: relative;
-  margin: 1rem 0;
+  overflow: hidden;
 }
+
+.title-badge {
+  background: white;
+  color: #e84393;
+  font-size: 0.85rem;
+  font-weight: 900;
+  padding: 6px 16px;
+  border-radius: 30px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
 .title-photo {
   width: 200px;
-  height: 260px;
+  height: 240px;
   object-fit: cover;
   object-position: top center;
-  border-radius: 20px;
-  border: 5px solid #ffd166;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
-}
-.star-badge {
-  position: absolute;
-  top: -14px;
-  right: -14px;
-  background: #ffd166;
-  color: #333;
-  font-weight: 900;
-  font-size: 0.75rem;
-  padding: 5px 10px;
-  border-radius: 20px;
-  transform: rotate(10deg);
-  box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+  border-radius: 24px;
+  border: 6px solid white;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+  margin: 0.8rem 0;
 }
 
 #slide-title h1 {
-  font-size: clamp(1.6rem, 4vw, 2.8rem);
+  font-size: clamp(2rem, 5vw, 3.2rem);
   font-weight: 900;
-  line-height: 1.2;
-  text-shadow: 3px 3px 0 rgba(0,0,0,0.3);
-  max-width: 560px;
+  color: white;
+  text-shadow: 3px 3px 0 rgba(0,0,0,0.15);
+  line-height: 1.1;
 }
 #slide-title p {
-  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  color: white;
   margin: 0.7rem 0 1.5rem;
-  opacity: 0.9;
+  font-weight: 600;
+  opacity: 0.95;
 }
 
 .btn-start {
-  background: #ffd166;
-  color: #1a1a1a;
+  background: white;
+  color: #a029d4;
   border: none;
-  padding: 0.9rem 3rem;
+  padding: 1rem 3rem;
   font-size: 1.4rem;
-  font-weight: 800;
+  font-weight: 900;
   border-radius: 50px;
   cursor: pointer;
-  box-shadow: 0 6px 0 #b38b00;
+  box-shadow: 0 6px 0 rgba(0,0,0,0.2);
   transition: transform 0.1s, box-shadow 0.1s;
   letter-spacing: 0.5px;
 }
-.btn-start:hover  { transform: translateY(-3px); box-shadow: 0 9px 0 #b38b00; }
-.btn-start:active { transform: translateY(2px);  box-shadow: 0 3px 0 #b38b00; }
+.btn-start:hover  { transform: translateY(-3px); box-shadow: 0 9px 0 rgba(0,0,0,0.2); }
+.btn-start:active { transform: translateY(2px);  box-shadow: 0 3px 0 rgba(0,0,0,0.2); }
 
-/* ── Quiz Slides ── */
-.quiz-slide {
-  background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
-}
+/* ══════════════════════════════════
+   QUIZ SLIDES
+══════════════════════════════════ */
+.quiz-slide { background: #f8f0ff; }
 
 .topbar {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  background: rgba(0,0,0,0.75);
-  backdrop-filter: blur(8px);
-  padding: 0.55rem 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: 700;
-  font-size: 1rem;
+  position: fixed; top: 0; left: 0; right: 0;
+  background: white;
+  padding: 0.6rem 1.5rem;
+  display: flex; justify-content: space-between; align-items: center;
+  font-weight: 800; font-size: 1rem;
   z-index: 200;
-  color: white;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
 }
-.topbar .q-counter { color: #aaa; }
-.topbar .score-val { color: #ffd166; font-size: 1.1rem; }
+.q-counter { color: #aaa; font-size: 0.95rem; }
+.score-val  { color: #e84393; font-size: 1.1rem; }
 
 .quiz-inner {
   display: flex;
   align-items: center;
   gap: 2.5rem;
-  max-width: 900px;
+  max-width: 920px;
   width: 100%;
-  margin-top: 3rem;
+  margin-top: 3.5rem;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-.photo-col {
-  flex-shrink: 0;
-}
+.photo-col { flex-shrink: 0; }
+
 .quiz-photo {
-  width: 220px;
-  height: 280px;
+  width: 240px;
+  height: 300px;
   object-fit: cover;
   object-position: top center;
-  border-radius: 18px;
-  border: 4px solid rgba(255,255,255,0.15);
-  box-shadow: 0 10px 35px rgba(0,0,0,0.55);
+  border-radius: 24px;
+  border: 5px solid white;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.18);
   display: block;
 }
 .photo-tag {
   margin-top: 8px;
-  background: #ffd166;
-  color: #1a1a1a;
-  font-size: 0.72rem;
+  background: linear-gradient(90deg, #ff9ff3, #a29bfe);
+  color: white;
+  font-size: 0.75rem;
   font-weight: 800;
-  padding: 4px 12px;
+  padding: 5px 14px;
   border-radius: 20px;
   display: inline-block;
+  letter-spacing: 0.3px;
 }
 
 .content-col {
   flex: 1;
   min-width: 280px;
-  max-width: 520px;
+  max-width: 500px;
   text-align: left;
 }
 
 .question-text {
-  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-  font-weight: 800;
-  line-height: 1.4;
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  font-weight: 900;
+  line-height: 1.35;
+  color: #2d2d2d;
   margin-bottom: 1.1rem;
 }
 
+/* ── 4 Answer Buttons ── */
 .options-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.7rem;
+  gap: 0.75rem;
 }
 
 .opt-btn {
-  background: rgba(255,255,255,0.09);
-  color: white;
-  border: 2px solid rgba(255,255,255,0.18);
-  padding: 0.8rem 0.9rem;
-  font-size: clamp(0.85rem, 1.5vw, 1rem);
-  font-weight: 600;
-  border-radius: 14px;
+  border: none;
+  padding: 0.9rem 0.8rem;
+  font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+  font-weight: 800;
+  border-radius: 16px;
   cursor: default;
-  line-height: 1.35;
+  line-height: 1.3;
   text-align: center;
-  transition: background 0.35s, border-color 0.35s, transform 0.25s;
+  color: white;
+  transition: transform 0.25s;
   user-select: none;
+  position: relative;
+  box-shadow: 0 5px 0 rgba(0,0,0,0.18);
 }
+.opt-btn:nth-child(1) { background: #ff4757; }
+.opt-btn:nth-child(2) { background: #5352ed; }
+.opt-btn:nth-child(3) { background: #ffa502; }
+.opt-btn:nth-child(4) { background: #2ed573; color: #1a1a1a; }
 
 .opt-btn.correct {
-  background: #06d6a0;
-  border-color: #04b484;
-  animation: popCorrect 0.5s ease;
+  animation: popCorrect 0.5s ease forwards;
+  outline: 5px solid #ffd166;
+  outline-offset: 2px;
 }
 .opt-btn.wrong {
-  background: rgba(230,57,70,0.4);
-  border-color: #e63946;
-  opacity: 0.7;
+  opacity: 0.35;
+  transform: scale(0.96);
 }
 @keyframes popCorrect {
   0%   { transform: scale(1); }
-  40%  { transform: scale(1.07); }
+  40%  { transform: scale(1.08); }
   100% { transform: scale(1); }
 }
 
+/* ── Bottom row ── */
 .reveal-row {
-  margin-top: 1.2rem;
+  margin-top: 1.1rem;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.9rem;
   flex-wrap: wrap;
 }
 
 .btn-reveal {
-  background: linear-gradient(135deg, #e63946, #c62a2a);
+  background: linear-gradient(135deg, #e84393, #a029d4);
   color: white;
   border: none;
-  padding: 0.75rem 1.8rem;
-  font-size: 1.05rem;
-  font-weight: 800;
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 900;
   border-radius: 50px;
   cursor: pointer;
-  box-shadow: 0 5px 0 #8b1a1a;
+  box-shadow: 0 5px 0 rgba(0,0,0,0.2);
   transition: transform 0.1s, box-shadow 0.1s;
   letter-spacing: 0.3px;
 }
-.btn-reveal:hover  { transform: translateY(-2px); box-shadow: 0 7px 0 #8b1a1a; }
-.btn-reveal:active { transform: translateY(2px);  box-shadow: 0 2px 0 #8b1a1a; }
-.btn-reveal:disabled {
-  opacity: 0;
-  pointer-events: none;
-}
+.btn-reveal:hover  { transform: translateY(-2px); box-shadow: 0 7px 0 rgba(0,0,0,0.2); }
+.btn-reveal:active { transform: translateY(2px);  box-shadow: 0 2px 0 rgba(0,0,0,0.2); }
+.btn-reveal:disabled { opacity: 0; pointer-events: none; }
 
 .btn-next {
-  background: #ffd166;
+  background: linear-gradient(135deg, #ffd166, #ff9f43);
   color: #1a1a1a;
   border: none;
-  padding: 0.75rem 1.8rem;
-  font-size: 1.05rem;
-  font-weight: 800;
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 900;
   border-radius: 50px;
   cursor: pointer;
-  box-shadow: 0 5px 0 #b38b00;
+  box-shadow: 0 5px 0 rgba(0,0,0,0.2);
   transition: transform 0.1s, box-shadow 0.1s;
   display: none;
 }
-.btn-next:hover  { transform: translateY(-2px); box-shadow: 0 7px 0 #b38b00; }
-.btn-next:active { transform: translateY(2px);  box-shadow: 0 2px 0 #b38b00; }
+.btn-next:hover  { transform: translateY(-2px); box-shadow: 0 7px 0 rgba(0,0,0,0.2); }
+.btn-next:active { transform: translateY(2px);  box-shadow: 0 2px 0 rgba(0,0,0,0.2); }
 
 .feedback-msg {
   display: none;
-  margin-top: 0.9rem;
-  padding: 0.7rem 1rem;
-  border-radius: 12px;
-  font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+  margin-top: 0.85rem;
+  padding: 0.65rem 1rem;
+  border-radius: 14px;
+  font-size: clamp(0.9rem, 1.6vw, 1rem);
   font-weight: 700;
-  line-height: 1.4;
-}
-.feedback-msg.correct-fb {
-  background: rgba(6,214,160,0.18);
-  border: 2px solid #06d6a0;
-  color: #a8f0df;
-}
-.feedback-msg.wrong-fb {
-  background: rgba(230,57,70,0.15);
-  border: 2px solid #e63946;
-  color: #ffaaaa;
+  color: #2d2d2d;
+  background: white;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
 }
 
-/* ── Results Slide ── */
+/* ══════════════════════════════════
+   RESULTS SLIDE
+══════════════════════════════════ */
 #slide-results {
-  background: linear-gradient(135deg, #c0392b 0%, #8e1470 50%, #1a237e 100%);
+  background: linear-gradient(135deg, #ff9ff3 0%, #a29bfe 50%, #74b9ff 100%);
 }
 .results-photo {
   width: 160px;
@@ -280,89 +267,84 @@ body {
   object-fit: cover;
   object-position: top center;
   border-radius: 50%;
-  border: 6px solid #ffd166;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+  border: 6px solid white;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.2);
   margin: 0.8rem 0;
 }
 .results-score {
-  font-size: clamp(3rem, 10vw, 5.5rem);
+  font-size: clamp(3.5rem, 12vw, 6rem);
   font-weight: 900;
+  color: white;
+  text-shadow: 3px 3px 0 rgba(0,0,0,0.15);
   line-height: 1;
-  text-shadow: 3px 3px 0 rgba(0,0,0,0.3);
 }
-.results-label {
-  font-size: 1rem;
-  opacity: 0.75;
-  margin-bottom: 0.3rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
+.results-label { font-size: 0.9rem; color: rgba(255,255,255,0.8); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
 .results-msg {
-  font-size: clamp(1rem, 2.5vw, 1.35rem);
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
   font-weight: 700;
-  max-width: 500px;
-  margin: 0.6rem 0 1.5rem;
+  color: white;
+  max-width: 480px;
+  margin: 0.7rem 0 1.5rem;
   line-height: 1.45;
 }
 .btn-restart {
-  background: rgba(255,255,255,0.18);
-  color: white;
-  border: 2px solid rgba(255,255,255,0.4);
-  padding: 0.7rem 1.8rem;
+  background: white;
+  color: #a029d4;
+  border: none;
+  padding: 0.8rem 2rem;
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 900;
   border-radius: 50px;
   cursor: pointer;
-  transition: background 0.2s;
+  box-shadow: 0 5px 0 rgba(0,0,0,0.15);
+  transition: transform 0.1s;
 }
-.btn-restart:hover { background: rgba(255,255,255,0.28); }
+.btn-restart:hover { transform: translateY(-2px); }
 
-/* ── Confetti canvas ── */
+/* ── Confetti ── */
 #confetti-canvas {
-  position: fixed;
-  top: 0; left: 0;
+  position: fixed; top: 0; left: 0;
   width: 100%; height: 100%;
-  pointer-events: none;
-  z-index: 999;
+  pointer-events: none; z-index: 999;
 }
 
-@media (max-width: 560px) {
+@media (max-width: 580px) {
   .options-grid { grid-template-columns: 1fr; }
-  .quiz-photo   { width: 100%; height: 200px; object-position: 50% 20%; }
+  .quiz-photo   { width: 100%; height: 190px; object-position: 50% 15%; }
   .content-col  { text-align: center; }
   .reveal-row   { justify-content: center; }
 }
 </style>
 </head>
 <body>
-
 <canvas id="confetti-canvas"></canvas>
 
-<!-- ══════════════════════════════════════════════════
+<!-- floating deco -->
+<div class="deco" style="top:5%;left:3%;font-size:2.5rem;animation-delay:0s">⭐</div>
+<div class="deco" style="top:8%;right:5%;font-size:2rem;animation-delay:0.5s">🌸</div>
+<div class="deco" style="top:75%;left:2%;font-size:1.8rem;animation-delay:1s">✨</div>
+<div class="deco" style="top:80%;right:3%;font-size:2.2rem;animation-delay:0.3s">🏐</div>
+<div class="deco" style="top:50%;left:1%;font-size:1.5rem;animation-delay:1.5s">💜</div>
+<div class="deco" style="top:20%;right:2%;font-size:1.8rem;animation-delay:0.8s">🌟</div>
+
+<!-- ══════════════════════════════════
      TITLE SLIDE
-══════════════════════════════════════════════════ -->
+══════════════════════════════════ -->
 <section class="slide active" id="slide-title">
-  <div class="bounce">⭐</div>
-
-  <div class="title-photo-wrap">
-    <img src="images/IMG_8760.JPG" alt="Chloe jumping" class="title-photo">
-    <div class="star-badge">NETBALL STAR 🏅</div>
-  </div>
-
+  <div class="title-badge">🏐 Talent Show 2025 🏐</div>
+  <img src="images/IMG_8760.JPG" alt="Chloe" class="title-photo">
   <h1>🌟 Chloe's Favourite<br>Talent Quiz! 🌟</h1>
-  <p>How well do YOU know me?<br>Hands up if you think you know the answer! 🙋</p>
-
-  <button class="btn-start" onclick="startQuiz()">LET'S PLAY! 🚀</button>
+  <p>How well do YOU know me? 🙋<br>Hands up for your answer!</p>
+  <button class="btn-start" onclick="startQuiz()">LET'S GO! 🚀</button>
 </section>
 
-<!-- Question slides injected here by JS -->
 <div id="quiz-container"></div>
 
-<!-- ══════════════════════════════════════════════════
+<!-- ══════════════════════════════════
      RESULTS SLIDE
-══════════════════════════════════════════════════ -->
+══════════════════════════════════ -->
 <section class="slide" id="slide-results">
-  <div class="bounce">🏆</div>
+  <div style="font-size:3rem">🏆✨🎉</div>
   <img src="images/IMG_8760.JPG" alt="Chloe" class="results-photo">
   <p class="results-label">Final Score</p>
   <div class="results-score" id="final-score">0/6</div>
@@ -371,99 +353,90 @@ body {
 </section>
 
 <script>
-/* ══════════════════════════════════════
-   QUIZ DATA
-══════════════════════════════════════ */
 const questions = [
   {
-    photo:   "images/IMG_8760.JPG",
-    tag:     "📸 Chloe's first day of training!",
-    q:       "This is Chloe jumping on her VERY FIRST day of netball training — but how did she feel?",
-    answers: [
-      { text: "🥱 Completely bored — she'd rather be napping",       correct: false },
-      { text: "😬 A tiny bit nervous... but SOOO excited!",          correct: true  },
-      { text: "🤔 Confused — thought she was going to swimming",     correct: false },
-      { text: "😤 Already demanding to be team captain",             correct: false },
+    photo:  "images/IMG_8760.JPG",
+    tag:    "📸 My first ever training day!",
+    q:      "This is me on my VERY first day of netball! 😬 How was I feeling?",
+    opts:   [
+      { t: "🥱 Super bored",              c: false },
+      { t: "😬 Nervous but SO excited!",  c: true  },
+      { t: "🤔 Thought it was swimming",  c: false },
+      { t: "😤 Already team captain",     c: false },
     ],
-    correctMsg: "YES! Look at that JUMP! She was SO excited she was basically already flying! 🚀",
-    wrongMsg:   "Not quite! She was a little nervous but absolutely BURSTING with excitement — just look at that jump! 😄",
+    yes: "YES! 🎉 I was SO excited I couldn't stop jumping! (Obviously! 🚀)",
+    no:  "Nope! 😄 I was a tiny bit nervous but absolutely BURSTING with excitement!",
   },
   {
-    photo:   "images/IMG_8751.JPG",
-    tag:     "📸 Chloe in her position bib!",
-    q:       "The letters on Chloe's bib say WA. What does WA stand for in netball?",
-    answers: [
-      { text: "🦁 Wild Animal (gets to roam everywhere)",  correct: false },
-      { text: "🍉 Watermelon Addict (always hungry)",      correct: false },
-      { text: "🏅 Wing Attack",                            correct: true  },
-      { text: "😎 Wickedly Awesome (all of the above)",    correct: false },
+    photo:  "images/IMG_8751.JPG",
+    tag:    "📸 That's MY bib!",
+    q:      "Look at my bib! 👀 What does WA stand for?",
+    opts:   [
+      { t: "🦁 Wild Animal",        c: false },
+      { t: "🍉 Watermelon Addict",  c: false },
+      { t: "🏅 Wing Attack",        c: true  },
+      { t: "😎 Wickedly Awesome",   c: false },
     ],
-    correctMsg: "Wing Attack! Chloe zooms up and down the wing like an absolute rocket! ⚡",
-    wrongMsg:   "Haha! Nice try — it's Wing Attack! Though 'Wickedly Awesome' is also 100% true! 😂",
+    yes: "Wing Attack! ⚡ I zoom up and down the wing super fast!",
+    no:  "It's Wing Attack! ⚡ (Although Wickedly Awesome is also correct 😂)",
   },
   {
-    photo:   "images/IMG_8756.JPG",
-    tag:     "📸 Chloe with a very important person!",
-    q:       "Who is this special person with Chloe?",
-    answers: [
-      { text: "👩‍⚕️ Dr. Netball — world-famous sports scientist",  correct: false },
-      { text: "🌟 Vicky — Chloe's amazing coach!",                correct: true  },
-      { text: "👩‍🍳 A celebrity chef who also loves netball",       correct: false },
-      { text: "🤷 A very tall stranger from the car park",         correct: false },
+    photo:  "images/IMG_8756.JPG",
+    tag:    "📸 Me with a very special person!",
+    q:      "Who is this amazing lady with me? 🌟",
+    opts:   [
+      { t: "👩‍⚕️ A sports scientist",   c: false },
+      { t: "🌟 Vicky, my coach!",       c: true  },
+      { t: "👩‍🍳 A celebrity chef",       c: false },
+      { t: "🤷 A stranger",             c: false },
     ],
-    correctMsg: "That's the legendary Coach Vicky! The mastermind behind all of Chloe's secret moves! 🌟",
-    wrongMsg:   "That's Coach Vicky! She's the one teaching me all my superstar skills. The car park stranger is fictional (I think). 😂",
+    yes: "That's Coach Vicky! 🌟 She taught me ALL my best moves!",
+    no:  "That's Coach Vicky! 🌟 The car park stranger is fictional. 😂",
   },
   {
-    photo:   "images/IMG_8754.JPG",
-    tag:     "📸 Player of the Week — first ever goal! 🏆",
-    q:       "Chloe scored her FIRST EVER goal and won Player of the Week! One small question about that day…",
-    answers: [
-      { text: "☀️ Gorgeous sunshine — winners bring good weather",  correct: false },
-      { text: "🌈 A rainbow appeared the moment she scored",        correct: false },
-      { text: "🌧️ ABSOLUTELY DRENCHED in rain",                    correct: true  },
-      { text: "🌀 A mild tornado — she played through it",         correct: false },
+    photo:  "images/IMG_8754.JPG",
+    tag:    "📸 My first ever goal! 🏆",
+    q:      "I scored my FIRST EVER goal and won this trophy! 🏆 But what was the weather like?",
+    opts:   [
+      { t: "☀️ Beautiful sunshine",   c: false },
+      { t: "🌈 A rainbow appeared",   c: false },
+      { t: "🌧️ Pouring with RAIN",    c: true  },
+      { t: "🌀 A mild tornado",       c: false },
     ],
-    correctMsg: "SOAKING wet — and I STILL scored and won the trophy! Nothing stops me! 🏆💧",
-    wrongMsg:   "Nope — it was absolutely BUCKETING down with rain! But Chloe scored anyway like a total legend! 🌧️🏆",
+    yes: "SOAKING wet and I STILL scored! 💧🏆 Nothing stops me!",
+    no:  "It was BUCKETING down! 🌧️ But I scored anyway like a legend! 🏆",
   },
   {
-    photo:   "images/IMG_8758.JPG",
-    tag:     "📸 Super fans at the Sydney Swifts! 🏐",
-    q:       "When Chloe went to watch the Sydney Swifts play, what did the girls bring to cheer the team on?",
-    answers: [
-      { text: "🎺 A full 12-piece brass band",                      correct: false },
-      { text: "📋 Homemade 'Go Go Swifts!' signs",                 correct: true  },
-      { text: "🦜 A parrot trained to yell 'SWIFTS!'",             correct: false },
-      { text: "🎸 An electric guitar for a cheer anthem",          correct: false },
+    photo:  "images/IMG_8758.JPG",
+    tag:    "📸 Me and my friends at the Swifts!",
+    q:      "I went to watch the Sydney Swifts! 🏐 What did we bring to cheer them on?",
+    opts:   [
+      { t: "🎺 A brass band",              c: false },
+      { t: "📋 Homemade 'Go Go Swifts!' signs", c: true  },
+      { t: "🦜 A parrot who yells SWIFTS", c: false },
+      { t: "🎸 An electric guitar",        c: false },
     ],
-    correctMsg: "Homemade signs are the BEST kind of fan gear! Look at how loud they were! 📋🎉",
-    wrongMsg:   "Haha! It was homemade 'Go Go Swifts!' signs — though a trained parrot would have been INCREDIBLE. 🦜",
+    yes: "Homemade signs are the BEST! 📋🎉 Look how loud we were!",
+    no:  "Homemade 'Go Go Swifts!' signs! 📋 A trained parrot would be cooler though 🦜",
   },
   {
-    photo:   "images/IMG_8752.JPG",
-    tag:     "📸 The whole squad together! 🔴",
-    q:       "What is the name of the club where Chloe plays netball?",
-    answers: [
-      { text: "🌟 The Sydney Swifts (wishful thinking!)",   correct: false },
-      { text: "🚀 The Red Rockets",                         correct: false },
-      { text: "🔴 Northbridge",                             correct: true  },
-      { text: "😎 Team Chloe (her vote)",                   correct: false },
+    photo:  "images/IMG_8752.JPG",
+    tag:    "📸 My whole team! ❤️",
+    q:      "This is my team! 🔴 What club do we play for?",
+    opts:   [
+      { t: "🌟 Sydney Swifts",      c: false },
+      { t: "🚀 The Red Rockets",    c: false },
+      { t: "🔴 Northbridge",        c: true  },
+      { t: "😎 Team Chloe",         c: false },
     ],
-    correctMsg: "Northbridge Netball Club! Go the RED! 🔴 Let's hear it for the whole team! 🏅",
-    wrongMsg:   "It's Northbridge! You can even see it on our uniforms. Team Chloe would be a great name though! 😂",
+    yes: "Northbridge! 🔴 Go the RED! Best team ever! 🏅",
+    no:  "It's Northbridge! 🔴 You can see it on our uniforms! (Team Chloe coming soon 😂)",
   },
 ];
 
-/* ══════════════════════════════════════
-   STATE
-══════════════════════════════════════ */
 let score = 0;
 let revealed = false;
 
-/* ══════════════════════════════════════
-   BUILD ALL QUESTION SLIDES UPFRONT
-══════════════════════════════════════ */
 function buildSlides() {
   const container = document.getElementById('quiz-container');
   container.innerHTML = '';
@@ -474,26 +447,22 @@ function buildSlides() {
     slide.innerHTML = `
       <div class="topbar">
         <span class="q-counter">Question ${qi + 1} of ${questions.length}</span>
-        <span class="score-val" id="score-display-${qi}">⭐ Score: 0</span>
+        <span class="score-val" id="score-display-${qi}">⭐ ${score}</span>
       </div>
       <div class="quiz-inner">
         <div class="photo-col">
-          <img src="${q.photo}" alt="question photo" class="quiz-photo">
+          <img src="${q.photo}" alt="" class="quiz-photo">
           <div class="photo-tag">${q.tag}</div>
         </div>
         <div class="content-col">
           <div class="question-text">${q.q}</div>
           <div class="options-grid">
-            ${q.answers.map((a, ai) => `
-              <div class="opt-btn" id="opt-${qi}-${ai}">${a.text}</div>
-            `).join('')}
+            ${q.opts.map((o, oi) => `<div class="opt-btn" id="opt-${qi}-${oi}">${o.t}</div>`).join('')}
           </div>
           <div class="reveal-row">
-            <button class="btn-reveal" id="reveal-btn-${qi}" onclick="revealAnswer(${qi})">
-              🎉 Reveal the Answer!
-            </button>
-            <button class="btn-next" id="next-btn-${qi}" onclick="goNext(${qi})">
-              ${qi < questions.length - 1 ? 'Next Question ▶' : 'See Results! 🏆'}
+            <button class="btn-reveal" id="reveal-btn-${qi}" onclick="revealAnswer(${qi})">🎉 Reveal!</button>
+            <button class="btn-next"   id="next-btn-${qi}"   onclick="goNext(${qi})">
+              ${qi < questions.length - 1 ? 'Next ▶' : 'Results! 🏆'}
             </button>
           </div>
           <div class="feedback-msg" id="feedback-${qi}"></div>
@@ -504,51 +473,26 @@ function buildSlides() {
   });
 }
 
-/* ══════════════════════════════════════
-   REVEAL ANSWER
-══════════════════════════════════════ */
 function revealAnswer(qi) {
   if (revealed) return;
   revealed = true;
-
   const q = questions[qi];
-
-  /* find the correct index */
-  const correctIdx = q.answers.findIndex(a => a.correct);
-
-  q.answers.forEach((a, ai) => {
-    const btn = document.getElementById(`opt-${qi}-${ai}`);
-    if (a.correct) {
-      btn.classList.add('correct');
-    } else {
-      btn.classList.add('wrong');
-    }
+  q.opts.forEach((o, oi) => {
+    const btn = document.getElementById(`opt-${qi}-${oi}`);
+    o.c ? btn.classList.add('correct') : btn.classList.add('wrong');
   });
-
-  /* score — only increment if a correct answer was the one revealed
-     (in classroom mode we always reveal the right one, so always +1) */
   score++;
-  document.getElementById(`score-display-${qi}`).textContent = `⭐ Score: ${score}`;
-
-  /* feedback */
+  document.getElementById(`score-display-${qi}`).textContent = `⭐ ${score}`;
   const fb = document.getElementById(`feedback-${qi}`);
   fb.style.display = 'block';
-  fb.className = 'feedback-msg correct-fb';
-  fb.textContent = '✅ ' + q.correctMsg;
-
-  /* hide reveal button, show next */
+  fb.textContent = '✅ ' + q.yes;
   document.getElementById(`reveal-btn-${qi}`).disabled = true;
   document.getElementById(`next-btn-${qi}`).style.display = 'inline-block';
-
   launchConfetti();
 }
 
-/* ══════════════════════════════════════
-   NAVIGATION
-══════════════════════════════════════ */
 function startQuiz() {
-  score = 0;
-  revealed = false;
+  score = 0; revealed = false;
   buildSlides();
   document.getElementById('slide-title').classList.remove('active');
   document.getElementById('slide-q0').classList.add('active');
@@ -557,11 +501,10 @@ function startQuiz() {
 function goNext(qi) {
   revealed = false;
   document.getElementById(`slide-q${qi}`).classList.remove('active');
-  const nextQi = qi + 1;
-  if (nextQi < questions.length) {
-    /* sync score display on next slide */
-    document.getElementById(`score-display-${nextQi}`).textContent = `⭐ Score: ${score}`;
-    document.getElementById(`slide-q${nextQi}`).classList.add('active');
+  const next = qi + 1;
+  if (next < questions.length) {
+    document.getElementById(`score-display-${next}`).textContent = `⭐ ${score}`;
+    document.getElementById(`slide-q${next}`).classList.add('active');
   } else {
     showResults();
   }
@@ -569,87 +512,62 @@ function goNext(qi) {
 
 function showResults() {
   document.getElementById('final-score').textContent = `${score}/${questions.length}`;
-
   const msgs = [
-    /* 0 */ "Hmm... have you actually MET me? 😂 Maybe sit next to me at lunch and take notes!",
-    /* 1 */ "1 out of 6... I'd like a word with you. 😄 Come back when you've studied my career!",
-    /* 2 */ "A couple right! You definitely know I exist — that's a start! 🙌",
-    /* 3 */ "Half marks! Not bad, but my biggest fans are doing better! 🏅",
-    /* 4 */ "4 out of 6! You're a proper Chloe fan! She'd be impressed! 🌟",
-    /* 5 */ "ALMOST PERFECT! 🎉 You basically know everything about me... are you following me? 😂",
-    /* 6 */ "PERFECT SCORE! 🏆🌟 You are officially my BIGGEST FAN! I should sign your book!",
+    "Hmm... have you actually MET me? 😂",
+    "1 out of 6! Sit next to me at lunch. 😄",
+    "2 right! You know I exist at least! 🙌",
+    "Half marks! My biggest fans are doing better! 🏅",
+    "4 out of 6 — proper fan! 🌟",
+    "ALMOST PERFECT! Are you following me?? 😂",
+    "PERFECT SCORE! 🏆🌟 You're my BIGGEST FAN! I'll sign your book!",
   ];
-
-  document.getElementById('results-msg').textContent = msgs[score] || msgs[6];
+  document.getElementById('results-msg').textContent = msgs[score];
   document.getElementById('slide-results').classList.add('active');
-
   setTimeout(launchConfetti, 100);
-  if (score === questions.length) {
-    setTimeout(launchConfetti, 600);
-    setTimeout(launchConfetti, 1100);
-  }
+  if (score === questions.length) { setTimeout(launchConfetti, 550); setTimeout(launchConfetti, 1050); }
 }
 
 function restartQuiz() {
-  score = 0;
-  revealed = false;
+  score = 0; revealed = false;
   document.getElementById('slide-results').classList.remove('active');
-  document.querySelectorAll('.quiz-slide').forEach(s => s.classList.remove('active'));
+  document.getElementById('quiz-container').innerHTML = '';
   document.getElementById('slide-title').classList.add('active');
 }
 
-/* ══════════════════════════════════════
-   CONFETTI
-══════════════════════════════════════ */
 function launchConfetti() {
   const canvas = document.getElementById('confetti-canvas');
-  canvas.width  = window.innerWidth;
-  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
   const ctx = canvas.getContext('2d');
-
-  const COLORS = ['#ffd166','#e63946','#06d6a0','#118ab2','#9b59b6','#ff6b6b','#ffffff','#f39c12'];
-  const pieces = Array.from({ length: 140 }, () => ({
-    x:    Math.random() * canvas.width,
-    y:    -10 - Math.random() * 80,
-    w:    Math.random() * 9 + 5,
-    h:    Math.random() * 6 + 3,
-    col:  COLORS[Math.floor(Math.random() * COLORS.length)],
-    vx:   (Math.random() - 0.5) * 5,
-    vy:   Math.random() * 3.5 + 2,
-    rot:  Math.random() * 360,
-    rspd: (Math.random() - 0.5) * 12,
-    op:   1,
+  const COLS = ['#ff9ff3','#ffd166','#a29bfe','#74b9ff','#55efc4','#ff4757','#fff','#ffa502'];
+  const pieces = Array.from({length: 150}, () => ({
+    x: Math.random() * canvas.width, y: -10 - Math.random() * 60,
+    w: Math.random() * 10 + 5, h: Math.random() * 6 + 3,
+    col: COLS[Math.floor(Math.random() * COLS.length)],
+    vx: (Math.random() - 0.5) * 5, vy: Math.random() * 3.5 + 2,
+    rot: Math.random() * 360, rs: (Math.random() - 0.5) * 12, op: 1,
   }));
-
-  let frame = 0;
-  const MAX = 130;
-
+  let f = 0;
   (function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    frame++;
+    f++;
     pieces.forEach(p => {
-      p.x   += p.vx;
-      p.y   += p.vy;
-      p.vy  += 0.08;
-      p.rot += p.rspd;
-      if (frame > MAX * 0.65) p.op -= 0.025;
+      p.x += p.vx; p.y += p.vy; p.vy += 0.08; p.rot += p.rs;
+      if (f > 90) p.op -= 0.025;
       ctx.save();
       ctx.globalAlpha = Math.max(0, p.op);
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.rot * Math.PI / 180);
+      ctx.translate(p.x, p.y); ctx.rotate(p.rot * Math.PI / 180);
       ctx.fillStyle = p.col;
-      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
       ctx.restore();
     });
-    if (frame < MAX) requestAnimationFrame(animate);
+    if (f < 130) requestAnimationFrame(animate);
     else ctx.clearRect(0, 0, canvas.width, canvas.height);
   })();
 }
 
 window.addEventListener('resize', () => {
   const c = document.getElementById('confetti-canvas');
-  c.width = window.innerWidth;
-  c.height = window.innerHeight;
+  c.width = window.innerWidth; c.height = window.innerHeight;
 });
 </script>
 </body>
