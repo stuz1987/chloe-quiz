@@ -350,7 +350,7 @@ body {
   </div>
 
   <h1>🌟 Chloe's Favourite<br>Talent Quiz! 🌟</h1>
-  <p>How well does the class know our netball superstar?<br>Hands up if you think you know the answer! 🙋</p>
+  <p>How well do YOU know me?<br>Hands up if you think you know the answer! 🙋</p>
 
   <button class="btn-start" onclick="startQuiz()">LET'S PLAY! 🚀</button>
 </section>
@@ -412,7 +412,7 @@ const questions = [
       { text: "🤷 A very tall stranger from the car park",         correct: false },
     ],
     correctMsg: "That's the legendary Coach Vicky! The mastermind behind all of Chloe's secret moves! 🌟",
-    wrongMsg:   "That's Coach Vicky! She's the one teaching Chloe all her superstar skills. The car park stranger is fictional (we think). 😂",
+    wrongMsg:   "That's Coach Vicky! She's the one teaching me all my superstar skills. The car park stranger is fictional (I think). 😂",
   },
   {
     photo:   "images/IMG_8754.JPG",
@@ -424,7 +424,7 @@ const questions = [
       { text: "🌧️ ABSOLUTELY DRENCHED in rain",                    correct: true  },
       { text: "🌀 A mild tornado — she played through it",         correct: false },
     ],
-    correctMsg: "SOAKING wet — and she STILL scored and won the trophy! Nothing stops our champion! 🏆💧",
+    correctMsg: "SOAKING wet — and I STILL scored and won the trophy! Nothing stops me! 🏆💧",
     wrongMsg:   "Nope — it was absolutely BUCKETING down with rain! But Chloe scored anyway like a total legend! 🌧️🏆",
   },
   {
@@ -451,7 +451,7 @@ const questions = [
       { text: "😎 Team Chloe (her vote)",                   correct: false },
     ],
     correctMsg: "Northbridge Netball Club! Go the RED! 🔴 Let's hear it for the whole team! 🏅",
-    wrongMsg:   "It's Northbridge! You can even see it on their uniforms. Team Chloe would be a great name though! 😂",
+    wrongMsg:   "It's Northbridge! You can even see it on our uniforms. Team Chloe would be a great name though! 😂",
   },
 ];
 
@@ -571,13 +571,13 @@ function showResults() {
   document.getElementById('final-score').textContent = `${score}/${questions.length}`;
 
   const msgs = [
-    /* 0 */ "Hmm... have you actually MET Chloe? 😂 Maybe sit next to her at lunch and take notes!",
-    /* 1 */ "1 out of 6... Chloe would like a word. 😄 Come back when you've studied her netball career!",
-    /* 2 */ "A couple right! You definitely know Chloe exists — that's a start! 🙌",
-    /* 3 */ "Half marks! You're a decent fan but Chloe's biggest supporters are doing better! 🏅",
+    /* 0 */ "Hmm... have you actually MET me? 😂 Maybe sit next to me at lunch and take notes!",
+    /* 1 */ "1 out of 6... I'd like a word with you. 😄 Come back when you've studied my career!",
+    /* 2 */ "A couple right! You definitely know I exist — that's a start! 🙌",
+    /* 3 */ "Half marks! Not bad, but my biggest fans are doing better! 🏅",
     /* 4 */ "4 out of 6! You're a proper Chloe fan! She'd be impressed! 🌟",
-    /* 5 */ "ALMOST PERFECT! 🎉 You basically know everything about Chloe... are you following her? 😂",
-    /* 6 */ "PERFECT SCORE! 🏆🌟 You are officially Chloe's BIGGEST FAN! She should sign your book!",
+    /* 5 */ "ALMOST PERFECT! 🎉 You basically know everything about me... are you following me? 😂",
+    /* 6 */ "PERFECT SCORE! 🏆🌟 You are officially my BIGGEST FAN! I should sign your book!",
   ];
 
   document.getElementById('results-msg').textContent = msgs[score] || msgs[6];
