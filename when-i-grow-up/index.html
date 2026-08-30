@@ -49,10 +49,15 @@ body {
   display: none;
   position: fixed;
   inset: 0;
-  padding: clamp(1.25rem, 4vw, 3rem);
+  padding: clamp(.9rem, 2.4vw, 2rem);
+  padding-bottom: clamp(74px, 11vh, 104px);
   overflow-y: auto;
 }
 .slide.active { display: grid; place-items: center; }
+.slide > * { min-width: 0; max-width: 100%; }
+/* grid items default to min-width:auto, which lets long text and intrinsic
+   image widths push a track wider than its container — reset it down the chain */
+.subjects, .tiles, .tile, .tile > *, .split, .split > * { min-width: 0; }
 .slide.active .rise { animation: rise .55s cubic-bezier(.2,.7,.3,1) both; }
 .slide.active .rise:nth-child(2) { animation-delay: .07s; }
 .slide.active .rise:nth-child(3) { animation-delay: .14s; }
@@ -98,7 +103,7 @@ body {
 }
 .bunting span {
   width: clamp(26px, 4.4vw, 52px);
-  height: clamp(34px, 5.6vw, 66px);
+  height: clamp(22px, min(5.4vw, 5vh), 60px);
   clip-path: polygon(0 0, 100% 0, 50% 100%);
   opacity: .92;
 }
@@ -127,7 +132,7 @@ body {
   position: relative;
   display: inline-block;
   background: #fff;
-  padding: 12px 12px 14px;
+  padding: clamp(6px, 1.1vh, 12px) clamp(6px, 1.1vh, 12px) clamp(8px, 1.4vh, 14px);
   border-radius: 4px;
   box-shadow: 0 18px 44px rgba(46,36,24,.26);
 }
@@ -149,15 +154,15 @@ body {
 .title-stack {
   display: grid;
   justify-items: center;
-  gap: clamp(.6rem, 1.6vw, 1.1rem);
+  gap: clamp(.35rem, 1.2vh, .9rem);
   text-align: center;
   max-width: 900px;
-  padding-top: clamp(2.5rem, 6vw, 4rem);
+  padding-top: clamp(1.4rem, 5vh, 3rem);
 }
 .title-stack h1 {
   font-family: var(--display);
   font-weight: 700;
-  font-size: clamp(3rem, 10vw, 6.5rem);
+  font-size: clamp(2rem, min(9.5vw, 9vh), 5.6rem);
   line-height: .95;
   color: var(--chalk);
   text-wrap: balance;
@@ -165,17 +170,18 @@ body {
 }
 .byline {
   font-family: var(--display);
-  font-size: clamp(1.5rem, 4vw, 2.4rem);
+  font-size: clamp(1.1rem, min(3.6vw, 3.2vh), 2.1rem);
   color: var(--chalk-soft);
 }
 .title-stack .photo img {
-  width: clamp(180px, 26vw, 260px);
-  height: clamp(230px, 33vw, 330px);
+  height: min(330px, 34vh);
+  width: auto;
+  aspect-ratio: 3 / 4;
   object-fit: cover;
   object-position: 50% 22%;
 }
 /* hand-drawn chalk underline */
-.squiggle { width: clamp(150px, 26vw, 260px); height: 14px; overflow: visible; }
+.squiggle { width: clamp(110px, 24vw, 240px); height: 14px; overflow: visible; }
 .squiggle path {
   fill: none; stroke: var(--blush); stroke-width: 4;
   stroke-linecap: round; opacity: .85;
@@ -186,39 +192,39 @@ body {
   display: grid;
   grid-template-columns: 1.05fr .95fr;
   align-items: center;
-  gap: clamp(1.75rem, 5vw, 4.5rem);
-  max-width: 1180px;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  max-width: 1080px;
   width: 100%;
 }
 .goal h2 {
   font-family: var(--display);
   font-weight: 700;
-  font-size: clamp(2.4rem, 6.4vw, 4.4rem);
-  line-height: 1.02;
+  font-size: clamp(1.7rem, min(6vw, 6.4vh), 3.9rem);
+  line-height: 1.04;
   color: var(--ink);
   margin: .5rem 0 .1rem;
   text-wrap: balance;
 }
 .goal .highlight { color: #C4737E; }
 .goal p {
-  font-size: clamp(1.05rem, 2.1vw, 1.5rem);
+  font-size: clamp(.92rem, min(2vw, 2.1vh), 1.35rem);
   font-weight: 500;
-  line-height: 1.55;
+  line-height: 1.5;
   color: var(--ink-soft);
   max-width: 28ch;
   margin-top: .9rem;
 }
 .year-badge {
   display: inline-flex; align-items: baseline; gap: .5rem;
-  margin-top: clamp(1.1rem, 2.4vw, 1.6rem);
-  padding: 12px 22px;
+  margin-top: clamp(.7rem, 2.2vh, 1.5rem);
+  padding: clamp(8px, 1.4vh, 12px) 22px;
   border-radius: 18px;
   background: var(--paper-deep);
   box-shadow: inset 0 0 0 2px rgba(196,115,126,.28);
 }
 .year-badge b {
   font-family: var(--display);
-  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  font-size: clamp(1.5rem, min(4vw, 4.2vh), 2.6rem);
   font-weight: 700;
   color: #C4737E;
   line-height: 1;
@@ -232,9 +238,10 @@ body {
 }
 .split .photo { justify-self: center; }
 .split .photo img {
-  width: 100%;
-  max-width: 420px;
-  height: auto;
+  height: min(58vh, 500px);
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
 }
 
 /* ══ SLIDE 3 — Favourite subjects ═════════ */
@@ -242,53 +249,62 @@ body {
 .subjects h2 {
   font-family: var(--display);
   font-weight: 700;
-  font-size: clamp(2.2rem, 5.6vw, 3.8rem);
+  font-size: clamp(1.6rem, min(5.2vw, 5.4vh), 3.3rem);
   color: var(--ink);
   line-height: 1.05;
 }
 .subjects .lede {
-  font-size: clamp(.98rem, 1.8vw, 1.2rem);
+  font-size: clamp(.85rem, min(1.7vw, 1.85vh), 1.12rem);
   font-weight: 500;
   color: var(--ink-soft);
-  margin: .5rem auto 0;
+  margin: .4rem auto 0;
   max-width: 46ch;
 }
 .tiles {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: clamp(1rem, 2.4vw, 2rem);
-  margin-top: clamp(1.4rem, 3vw, 2.4rem);
+  gap: clamp(.75rem, 2vw, 1.75rem);
+  margin-top: clamp(.9rem, 2.6vh, 2rem);
 }
 .tile {
   background: #fff;
   border-radius: 22px;
-  padding: clamp(.75rem, 1.4vw, 1.1rem);
+  padding: clamp(.55rem, 1.2vw, 1rem);
   box-shadow: 0 14px 34px rgba(75,65,55,.13);
   display: grid;
-  gap: .7rem;
+  gap: clamp(.35rem, .9vh, .7rem);
   align-content: start;
 }
 .tile .art {
   background: var(--paper);
   border-radius: 14px;
-  aspect-ratio: 4 / 5;
-  display: grid;
-  place-items: center;
+  height: min(38vh, 320px);
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
 }
-.tile .art img { width: 100%; height: 100%; object-fit: contain; }
+.tile .art img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
 .tile h3 {
   font-family: var(--display);
   font-weight: 700;
-  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-size: clamp(1.2rem, min(2.9vw, 3.1vh), 2rem);
   line-height: 1;
 }
 .tile p {
-  font-size: clamp(.86rem, 1.5vw, 1rem);
+  font-size: clamp(.78rem, min(1.4vw, 1.55vh), .98rem);
   font-weight: 500;
-  line-height: 1.5;
+  line-height: 1.45;
   color: var(--ink-soft);
-  padding: 0 .3rem clamp(.5rem, 1vw, .8rem);
+  padding: 0 .3rem clamp(.35rem, .9vh, .75rem);
 }
 .tile-pbl h3     { color: #C9971F; }
 .tile-history h3 { color: #A07A4A; }
@@ -302,20 +318,20 @@ body {
   text-align: center;
   display: grid;
   justify-items: center;
-  gap: clamp(.9rem, 2.2vw, 1.5rem);
+  gap: clamp(.6rem, 2vh, 1.4rem);
   max-width: 820px;
 }
 .closing h2 {
   font-family: var(--display);
   font-weight: 700;
-  font-size: clamp(2.6rem, 8vw, 5.2rem);
-  line-height: 1.02;
+  font-size: clamp(1.9rem, min(7.6vw, 8vh), 4.6rem);
+  line-height: 1.04;
   color: var(--chalk);
   text-wrap: balance;
 }
 .closing .sign {
   font-family: var(--display);
-  font-size: clamp(1.4rem, 3.4vw, 2.1rem);
+  font-size: clamp(1.05rem, min(3.4vw, 3vh), 2rem);
   color: var(--chalk-soft);
 }
 .hearts { display: flex; gap: .7rem; font-size: clamp(1.2rem, 2.6vw, 1.8rem); }
@@ -377,11 +393,38 @@ body {
 @media (max-width: 900px) {
   .split { grid-template-columns: 1fr; gap: 1.5rem; text-align: center; justify-items: center; }
   .goal p { max-width: 34ch; margin-inline: auto; }
-  .split .photo img { max-width: 300px; }
-  .tiles { grid-template-columns: 1fr; max-width: 380px; margin-inline: auto; }
-  .tile { grid-template-columns: 96px 1fr; align-items: center; text-align: left; }
-  .tile .art { aspect-ratio: 1; }
-  .tile p { padding-bottom: 0; }
+  .split .photo img { height: min(40vh, 320px); }
+  .tiles { grid-template-columns: 1fr; max-width: 100%; margin-inline: auto; }
+  .tile {
+    grid-template-columns: clamp(84px, 26vw, 116px) 1fr;
+    grid-template-rows: auto auto;
+    column-gap: clamp(.6rem, 3vw, 1rem);
+    align-items: center;
+    text-align: left;
+  }
+  .tile .art { grid-column: 1; grid-row: 1 / span 2; aspect-ratio: 1; height: auto; }
+  .tile h3 { grid-column: 2; grid-row: 1; align-self: end; }
+  .tile p  { grid-column: 2; grid-row: 2; align-self: start; padding: 0; }
+}
+
+/* very small phones: the three stacked tiles are the tightest thing on the deck */
+@media (max-width: 900px) and (max-height: 680px) {
+  .tile { grid-template-columns: clamp(66px, 20vw, 88px) 1fr; }
+  .tiles { gap: .5rem; }
+  .tile p { font-size: .74rem; line-height: 1.35; }
+  .subjects .lede { font-size: .8rem; }
+  .split .photo img { height: min(34vh, 280px); }
+}
+
+/* smallest phones still in the wild (320x568) */
+@media (max-width: 900px) and (max-height: 600px) {
+  .subjects h2 { font-size: 1.35rem; }
+  .subjects .lede { font-size: .74rem; }
+  .tile { grid-template-columns: 62px 1fr; }
+  .tile p { font-size: .68rem; }
+  .goal h2 { font-size: 1.5rem; }
+  .goal p { font-size: .84rem; }
+  .split .photo img { height: min(30vh, 240px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
