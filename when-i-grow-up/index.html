@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Chloe's Class 2B presentation: when I grow up I want to be a primary school teacher.">
+<title>When I Grow Up, by Chloe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap">
+<style>
+/* ══════════════════════════════════════════════
+   Chloe's scrapbook — chalkboard + watercolour paper
+   Single committed visual world (a projected deck),
+   so every colour is painted explicitly.
+══════════════════════════════════════════════ */
+:root {
+  --paper:      #FAF4E8;
+  --paper-deep: #F1E7D4;
+  --board:      #3D5A4C;
+  --board-deep: #32493E;
+  --chalk:      #F4F1E6;
+  --chalk-soft: #C9D6CD;
+  --ink:        #4B4137;
+  --ink-soft:   #857868;
+  --blush:      #E39FA6;
+  --sky:        #86B8D2;
+  --butter:     #EFC163;
+  --sage:       #A8BF9A;
+  --lilac:      #B9A9D4;
+
+  --display: 'Caveat', 'Bradley Hand', cursive;
+  --body: 'Quicksand', 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--body);
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Slide shell ───────────────────────────── */
+.slide {
+  display: none;
+  position: fixed;
+  inset: 0;
+  padding: clamp(1.25rem, 4vw, 3rem);
+  overflow-y: auto;
+}
+.slide.active { display: grid; place-items: center; }
+.slide.active .rise { animation: rise .55s cubic-bezier(.2,.7,.3,1) both; }
+.slide.active .rise:nth-child(2) { animation-delay: .07s; }
+.slide.active .rise:nth-child(3) { animation-delay: .14s; }
+.slide.active .rise:nth-child(4) { animation-delay: .21s; }
+.slide.active .rise:nth-child(5) { animation-delay: .28s; }
+.slide.active .rise:nth-child(6) { animation-delay: .35s; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Chalkboard slides */
+.board-slide {
+  background:
+    radial-gradient(120% 90% at 50% 20%, rgba(255,255,255,.07), transparent 70%),
+    var(--board);
+  color: var(--chalk);
+}
+/* faint chalk dust so the green never reads as flat fill */
+.board-slide::after {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(102deg, rgba(255,255,255,.028) 0 2px, transparent 2px 7px),
+    repeating-linear-gradient(9deg,  rgba(0,0,0,.03) 0 3px, transparent 3px 11px);
+}
+.board-slide > * { position: relative; z-index: 1; }
+
+/* Paper slides */
+.paper-slide {
+  background:
+    radial-gradient(90% 70% at 15% 0%, #FFFDF7, transparent 60%),
+    var(--paper);
+}
+
+/* ── Bunting ───────────────────────────────── */
+.bunting {
+  position: absolute; top: 0; left: -2%; right: -2%;
+  display: flex; justify-content: center; gap: clamp(4px, 1.2vw, 12px);
+  z-index: 2;
+}
+.bunting span {
+  width: clamp(26px, 4.4vw, 52px);
+  height: clamp(34px, 5.6vw, 66px);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  opacity: .92;
+}
+.bunting span:nth-child(5n+1) { background: var(--blush); }
+.bunting span:nth-child(5n+2) { background: var(--butter); }
+.bunting span:nth-child(5n+3) { background: var(--sky); }
+.bunting span:nth-child(5n+4) { background: var(--lilac); }
+.bunting span:nth-child(5n+5) { background: var(--sage); }
+
+/* ── Shared bits ───────────────────────────── */
+.chip {
+  display: inline-block;
+  font-family: var(--body);
+  font-size: clamp(.68rem, 1.1vw, .8rem);
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  padding: 7px 18px;
+  border-radius: 999px;
+}
+.chip-chalk { color: var(--board); background: var(--chalk); }
+.chip-paper { color: #fff; background: var(--blush); }
+
+/* Taped photo */
+.photo {
+  position: relative;
+  display: inline-block;
+  background: #fff;
+  padding: 12px 12px 14px;
+  border-radius: 4px;
+  box-shadow: 0 18px 44px rgba(46,36,24,.26);
+}
+.photo img { display: block; border-radius: 2px; }
+.photo::before, .photo::after {
+  content: "";
+  position: absolute;
+  width: 88px; height: 26px;
+  background: rgba(233,201,150,.62);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.35);
+}
+.photo::before { top: -12px; left: -16px; transform: rotate(-8deg); }
+.photo::after  { bottom: -12px; right: -16px; transform: rotate(-6deg); }
+
+.tilt-l { transform: rotate(-1.6deg); }
+.tilt-r { transform: rotate(1.6deg); }
+
+/* ══ SLIDE 1 — Title ══════════════════════ */
+.title-stack {
+  display: grid;
+  justify-items: center;
+  gap: clamp(.6rem, 1.6vw, 1.1rem);
+  text-align: center;
+  max-width: 900px;
+  padding-top: clamp(2.5rem, 6vw, 4rem);
+}
+.title-stack h1 {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(3rem, 10vw, 6.5rem);
+  line-height: .95;
+  color: var(--chalk);
+  text-wrap: balance;
+  text-shadow: 0 2px 0 rgba(0,0,0,.14);
+}
+.byline {
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 4vw, 2.4rem);
+  color: var(--chalk-soft);
+}
+.title-stack .photo img {
+  width: clamp(180px, 26vw, 260px);
+  height: clamp(230px, 33vw, 330px);
+  object-fit: cover;
+  object-position: 50% 22%;
+}
+/* hand-drawn chalk underline */
+.squiggle { width: clamp(150px, 26vw, 260px); height: 14px; overflow: visible; }
+.squiggle path {
+  fill: none; stroke: var(--blush); stroke-width: 4;
+  stroke-linecap: round; opacity: .85;
+}
+
+/* ══ SLIDE 2 — The big goal ═══════════════ */
+.split {
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  align-items: center;
+  gap: clamp(1.75rem, 5vw, 4.5rem);
+  max-width: 1180px;
+  width: 100%;
+}
+.goal h2 {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(2.4rem, 6.4vw, 4.4rem);
+  line-height: 1.02;
+  color: var(--ink);
+  margin: .5rem 0 .1rem;
+  text-wrap: balance;
+}
+.goal .highlight { color: #C4737E; }
+.goal p {
+  font-size: clamp(1.05rem, 2.1vw, 1.5rem);
+  font-weight: 500;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 28ch;
+  margin-top: .9rem;
+}
+.year-badge {
+  display: inline-flex; align-items: baseline; gap: .5rem;
+  margin-top: clamp(1.1rem, 2.4vw, 1.6rem);
+  padding: 12px 22px;
+  border-radius: 18px;
+  background: var(--paper-deep);
+  box-shadow: inset 0 0 0 2px rgba(196,115,126,.28);
+}
+.year-badge b {
+  font-family: var(--display);
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  font-weight: 700;
+  color: #C4737E;
+  line-height: 1;
+}
+.year-badge span {
+  font-size: clamp(.78rem, 1.3vw, .9rem);
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.split .photo { justify-self: center; }
+.split .photo img {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+}
+
+/* ══ SLIDE 3 — Favourite subjects ═════════ */
+.subjects { width: 100%; max-width: 1220px; text-align: center; }
+.subjects h2 {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(2.2rem, 5.6vw, 3.8rem);
+  color: var(--ink);
+  line-height: 1.05;
+}
+.subjects .lede {
+  font-size: clamp(.98rem, 1.8vw, 1.2rem);
+  font-weight: 500;
+  color: var(--ink-soft);
+  margin: .5rem auto 0;
+  max-width: 46ch;
+}
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1rem, 2.4vw, 2rem);
+  margin-top: clamp(1.4rem, 3vw, 2.4rem);
+}
+.tile {
+  background: #fff;
+  border-radius: 22px;
+  padding: clamp(.75rem, 1.4vw, 1.1rem);
+  box-shadow: 0 14px 34px rgba(75,65,55,.13);
+  display: grid;
+  gap: .7rem;
+  align-content: start;
+}
+.tile .art {
+  background: var(--paper);
+  border-radius: 14px;
+  aspect-ratio: 4 / 5;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.tile .art img { width: 100%; height: 100%; object-fit: contain; }
+.tile h3 {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  line-height: 1;
+}
+.tile p {
+  font-size: clamp(.86rem, 1.5vw, 1rem);
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  padding: 0 .3rem clamp(.5rem, 1vw, .8rem);
+}
+.tile-pbl h3     { color: #C9971F; }
+.tile-history h3 { color: #A07A4A; }
+.tile-music h3   { color: #8672B4; }
+.tile-pbl     .art { background: #FDF6E2; }
+.tile-history .art { background: #FAF3E6; }
+.tile-music   .art { background: #F6F1FA; }
+
+/* ══ SLIDE 4 — Thank you ══════════════════ */
+.closing {
+  text-align: center;
+  display: grid;
+  justify-items: center;
+  gap: clamp(.9rem, 2.2vw, 1.5rem);
+  max-width: 820px;
+}
+.closing h2 {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(2.6rem, 8vw, 5.2rem);
+  line-height: 1.02;
+  color: var(--chalk);
+  text-wrap: balance;
+}
+.closing .sign {
+  font-family: var(--display);
+  font-size: clamp(1.4rem, 3.4vw, 2.1rem);
+  color: var(--chalk-soft);
+}
+.hearts { display: flex; gap: .7rem; font-size: clamp(1.2rem, 2.6vw, 1.8rem); }
+.hearts span { animation: beat 2.6s ease-in-out infinite; }
+.hearts span:nth-child(2) { animation-delay: .35s; }
+.hearts span:nth-child(3) { animation-delay: .7s; }
+@keyframes beat {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.16); }
+}
+
+/* ── Navigation ────────────────────────────── */
+.nav {
+  position: fixed;
+  bottom: clamp(12px, 2.2vw, 22px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.82);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 6px 24px rgba(46,36,24,.18);
+  z-index: 50;
+}
+.nav button {
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  background: var(--paper-deep);
+  color: var(--ink);
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  font-size: 1.15rem;
+  display: grid; place-items: center;
+  transition: transform .12s, background .12s;
+}
+.nav button:hover:not(:disabled) { background: var(--blush); color: #fff; transform: translateY(-2px); }
+.nav button:disabled { opacity: .3; cursor: default; }
+.nav button:focus-visible,
+.dots button:focus-visible { outline: 3px solid var(--sky); outline-offset: 3px; }
+.dots { display: flex; gap: 9px; }
+.dots button {
+  width: 11px; height: 11px; padding: 0;
+  border-radius: 50%;
+  background: #D9CDBA;
+  transition: background .18s, transform .18s;
+}
+.dots button[aria-current="true"] { background: var(--blush); transform: scale(1.35); }
+.counter {
+  font-size: .78rem; font-weight: 700; letter-spacing: .1em;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Responsive ────────────────────────────── */
+@media (max-width: 900px) {
+  .split { grid-template-columns: 1fr; gap: 1.5rem; text-align: center; justify-items: center; }
+  .goal p { max-width: 34ch; margin-inline: auto; }
+  .split .photo img { max-width: 300px; }
+  .tiles { grid-template-columns: 1fr; max-width: 380px; margin-inline: auto; }
+  .tile { grid-template-columns: 96px 1fr; align-items: center; text-align: left; }
+  .tile .art { aspect-ratio: 1; }
+  .tile p { padding-bottom: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
+</style>
+
+</head>
+<body>
+<!-- ══ 1 · Title ══════════════════════════════ -->
+<section class="slide board-slide active" id="s1" aria-label="Title">
+  <div class="bunting" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div class="title-stack">
+    <span class="chip chip-chalk rise">My news · Class 2B</span>
+    <h1 class="rise">When I Grow&nbsp;Up</h1>
+    <svg class="squiggle rise" viewBox="0 0 240 14" aria-hidden="true">
+      <path d="M4 9 C 44 2, 78 12, 120 7 S 200 3, 236 8" />
+    </svg>
+    <div class="photo tilt-l rise">
+      <img src="images/classroom-portrait.jpg" alt="Chloe standing in a classroom holding a stack of school books">
+    </div>
+    <p class="byline rise">by Chloe</p>
+  </div>
+</section>
+
+<!-- ══ 2 · The big goal ═══════════════════════ -->
+<section class="slide paper-slide" id="s2" aria-label="My big goal">
+  <div class="split">
+    <div class="goal">
+      <span class="chip chip-paper rise">My big goal</span>
+      <h2 class="rise">I want to be a<br><span class="highlight">primary school teacher.</span></h2>
+      <p class="rise">Teachers help you read, and learn, and grow. I want to do that for little kids.</p>
+      <div class="year-badge rise">
+        <b>K&ndash;2</b>
+        <span>The years I want to teach</span>
+      </div>
+    </div>
+    <div class="photo tilt-r rise">
+      <img src="images/future-teacher.jpg" alt="Illustration of a young teacher at a chalkboard that reads Future Teacher">
+    </div>
+  </div>
+</section>
+
+<!-- ══ 3 · Favourite subjects ═════════════════ -->
+<section class="slide paper-slide" id="s3" aria-label="My favourite subjects">
+  <div class="subjects">
+    <h2 class="rise">My favourite subjects</h2>
+    <p class="lede rise">These are the ones I look forward to &mdash; and the ones I would love to teach one day.</p>
+    <div class="tiles">
+      <article class="tile tile-pbl rise">
+        <div class="art"><img src="images/pbl.jpg" alt="Watercolour lightbulb reading Project Based Learning, with a notebook and pencils"></div>
+        <h3>P.B.L.</h3>
+        <p>We get a big question and make something real to answer it. You plan it yourself, so it never feels like normal work.</p>
+      </article>
+      <article class="tile tile-history rise">
+        <div class="art"><img src="images/history.jpg" alt="Watercolour scroll reading History, with a castle, pyramid, ship and stack of books"></div>
+        <h3>History</h3>
+        <p>Stories about real people who lived ages ago. My favourite bit is finding out how different their day was from mine.</p>
+      </article>
+      <article class="tile tile-music rise">
+        <div class="art"><img src="images/music.jpg" alt="Watercolour headphones and music notes with the word Music"></div>
+        <h3>Music</h3>
+        <p>Singing and playing together is the loudest, happiest part of the week. Music makes life brighter.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 4 · Thank you ══════════════════════════ -->
+<section class="slide board-slide" id="s4" aria-label="Thank you">
+  <div class="closing">
+    <span class="chip chip-chalk rise">The end</span>
+    <h2 class="rise">Thank you for listening to me.</h2>
+    <div class="hearts rise" aria-hidden="true"><span>&#10084;&#65039;</span><span>&#11088;</span><span>&#10084;&#65039;</span></div>
+    <p class="sign rise">Chloe &middot; Class 2B</p>
+  </div>
+</section>
+
+<nav class="nav" aria-label="Slide navigation">
+  <button id="prev" aria-label="Previous slide">&#8592;</button>
+  <div class="dots" id="dots"></div>
+  <span class="counter" id="counter">1 / 4</span>
+  <button id="next" aria-label="Next slide">&#8594;</button>
+</nav>
+
+<script>
+(function () {
+  var slides  = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var prev    = document.getElementById('prev');
+  var next    = document.getElementById('next');
+  var counter = document.getElementById('counter');
+  var dotWrap = document.getElementById('dots');
+  var current = 0;
+
+  slides.forEach(function (s, i) {
+    var d = document.createElement('button');
+    d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+    d.addEventListener('click', function () { show(i); });
+    dotWrap.appendChild(d);
+  });
+  var dots = Array.prototype.slice.call(dotWrap.children);
+
+  function show(i) {
+    current = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach(function (s, n) { s.classList.toggle('active', n === current); });
+    dots.forEach(function (d, n) { d.setAttribute('aria-current', n === current ? 'true' : 'false'); });
+    counter.textContent = (current + 1) + ' / ' + slides.length;
+    prev.disabled = current === 0;
+    next.disabled = current === slides.length - 1;
+    slides[current].scrollTop = 0;
+  }
+
+  prev.addEventListener('click', function () { show(current - 1); });
+  next.addEventListener('click', function () { show(current + 1); });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { show(current + 1); e.preventDefault(); }
+    if (e.key === 'ArrowLeft'  || e.key === 'PageUp')                    { show(current - 1); e.preventDefault(); }
+    if (e.key === 'Home') { show(0); }
+    if (e.key === 'End')  { show(slides.length - 1); }
+  });
+
+  // Tap the right or left third of the screen to move — easiest thing for a 7-year-old on a tablet.
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('.nav')) return;
+    var x = e.clientX / window.innerWidth;
+    if (x > 0.66) show(current + 1);
+    else if (x < 0.34) show(current - 1);
+  });
+
+  show(0);
+})();
+</script>
+</body>
+</html>
