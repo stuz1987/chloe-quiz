@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Chloe's Class 2B topic talk: my three highlights from Year 2.">
+<title>My Highlights from Year 2, by Chloe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap">
+<style>
+/* ══════════════════════════════════════════════
+   Chloe's Year 2 Highlights
+   Magic-UI-style effects done in plain CSS:
+   aurora text, border beam, shimmer chips,
+   dot pattern, sparkles, confetti, bento grid.
+   One committed light look (it's projected).
+══════════════════════════════════════════════ */
+@property --beam {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+:root {
+  --bg:      #FFFBF4;
+  --card:    #FFFFFF;
+  --ink:     #1F1B3D;
+  --muted:   #6A6585;
+  --line:    #EDE6DA;
+  --pink:    #FF4F93;
+  --purple:  #8B5CF6;
+  --blue:    #3B82F6;
+  --cyan:    #1FC8E3;
+  --yellow:  #FFC23C;
+  --orange:  #FF8A3D;
+  --green:   #22C55E;
+  --track:   #E2583E;
+
+  --display: 'Fredoka', 'Avenir Next Rounded', 'Arial Rounded MT Bold', system-ui, sans-serif;
+  --body:    'Nunito', 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+body {
+  font-family: var(--body);
+  background: var(--bg);
+  color: var(--ink);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Slide shell ───────────────────────────── */
+.slide {
+  display: none;
+  position: fixed;
+  inset: 0;
+  padding: clamp(1rem, 3vw, 2.4rem);
+  padding-bottom: clamp(78px, 12vh, 108px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: var(--bg);
+}
+.slide.active { display: grid; grid-template-columns: minmax(0, 1fr); place-items: center; }
+.slide > * { position: relative; z-index: 1; min-width: 0; max-width: 100%; }
+
+/* Dot pattern, faded at the edges (Magic UI "DotPattern") */
+.slide::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(31,27,61,.14) 1.4px, transparent 1.6px);
+  background-size: 24px 24px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 65% at 50% 45%, #000 30%, transparent 85%);
+          mask-image: radial-gradient(ellipse 70% 65% at 50% 45%, #000 30%, transparent 85%);
+  pointer-events: none;
+}
+
+/* Soft colour blobs behind each slide */
+.blob {
+  position: absolute !important;
+  z-index: 0 !important;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: .55;
+  pointer-events: none;
+  animation: drift 14s ease-in-out infinite alternate;
+}
+@keyframes drift {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(40px, -30px) scale(1.12); }
+}
+
+/* Entrance: pop up in order */
+.slide.active .pop { animation: pop .6s cubic-bezier(.2,.9,.3,1.25) both; }
+.slide.active .pop:nth-child(2) { animation-delay: .08s; }
+.slide.active .pop:nth-child(3) { animation-delay: .16s; }
+.slide.active .pop:nth-child(4) { animation-delay: .24s; }
+.slide.active .pop:nth-child(5) { animation-delay: .32s; }
+.slide.active .pop:nth-child(6) { animation-delay: .40s; }
+@keyframes pop {
+  from { opacity: 0; transform: translateY(22px) scale(.94); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ── Aurora text (Magic UI "AuroraText") ───── */
+.aurora {
+  background: linear-gradient(120deg, var(--pink), var(--purple), var(--blue), var(--cyan), var(--yellow), var(--orange), var(--pink));
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+  animation: aurora 7s ease-in-out infinite alternate;
+}
+.aurora-gold {
+  background-image: linear-gradient(120deg, #F59E0B, #FFC23C, #FF8A3D, #FF4F93, #F59E0B);
+}
+.aurora-race {
+  background-image: linear-gradient(120deg, var(--track), var(--orange), var(--yellow), var(--green), var(--track));
+}
+@keyframes aurora {
+  from { background-position: 0% 50%; }
+  to   { background-position: 100% 50%; }
+}
+
+/* ── Shimmer chip (Magic UI "AnimatedShinyText") ── */
+.chip {
+  display: inline-flex; align-items: center; gap: .45em;
+  font-family: var(--body);
+  font-weight: 800;
+  font-size: clamp(.78rem, min(1.5vw, 2.2vh), 1rem);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  padding: .55em 1.2em;
+  border-radius: 999px;
+  color: var(--ink);
+  background:
+    linear-gradient(110deg, transparent 30%, rgba(255,255,255,.95) 50%, transparent 70%) 0 0 / 250% 100% no-repeat,
+    var(--card);
+  border: 1.5px solid var(--line);
+  box-shadow: 0 4px 14px rgba(31,27,61,.08);
+  animation: shimmer 3.2s ease-in-out infinite;
+}
+.chip .dot { width: .6em; height: .6em; border-radius: 50%; background: var(--pink); }
+@keyframes shimmer {
+  0%   { background-position: 160% 0, 0 0; }
+  60%, 100% { background-position: -60% 0, 0 0; }
+}
+
+/* ── Sparkles (Magic UI "SparklesText") ─────── */
+.sparkles { position: relative; display: inline-block; }
+.sparkle {
+  position: absolute;
+  width: var(--s, 18px); height: var(--s, 18px);
+  pointer-events: none;
+  animation: twinkle var(--d, 1.8s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+@keyframes twinkle {
+  0%, 100% { transform: scale(0) rotate(0deg); opacity: 0; }
+  50%      { transform: scale(1) rotate(90deg); opacity: 1; }
+}
+
+/* ── Border beam (Magic UI "BorderBeam") ────── */
+.beam { position: relative; border-radius: 30px; }
+.beam::after {
+  content: "";
+  position: absolute; inset: -5px;
+  border-radius: 34px;
+  padding: 5px;
+  background: conic-gradient(from var(--beam), transparent 0 62%, var(--yellow) 74%, var(--pink) 86%, transparent 96%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  animation: beam 3.6s linear infinite;
+  pointer-events: none;
+}
+@keyframes beam { to { --beam: 360deg; } }
+
+h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.01em; }
+h2 {
+  font-size: clamp(2rem, min(5.4vw, 8.4vh), 4.4rem);
+  line-height: 1.02;
+  text-wrap: balance;
+}
+.lede {
+  font-weight: 700;
+  font-size: clamp(1.05rem, min(2.1vw, 3.3vh), 1.6rem);
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+/* ══ SLIDE 1 · Title ═══════════════════════ */
+.title-stack {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: clamp(.5rem, 2vh, 1.3rem);
+  max-width: 1100px;
+}
+.title-stack h1 { line-height: .92; }
+.title-stack .t-small {
+  display: block;
+  font-size: clamp(2rem, min(6vw, 9vh), 4.6rem);
+  color: var(--ink);
+}
+.title-stack .t-big {
+  display: inline-block;
+  font-size: clamp(3.4rem, min(13vw, 19vh), 10.5rem);
+  padding: 0 .06em .04em;
+}
+.byline {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(1.1rem, min(2.6vw, 4vh), 2rem);
+  color: var(--muted);
+}
+.preview {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: clamp(.5rem, 1.4vw, 1rem);
+  margin-top: clamp(.2rem, 1.5vh, 1rem);
+}
+.preview li {
+  list-style: none;
+  display: inline-flex; align-items: center; gap: .55em;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(1rem, min(2vw, 3vh), 1.45rem);
+  padding: .5em 1.1em .5em .55em;
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  box-shadow: 0 8px 22px rgba(31,27,61,.08);
+}
+.preview .num {
+  display: grid; place-items: center;
+  width: 1.8em; height: 1.8em;
+  border-radius: 50%;
+  color: #fff;
+  font-size: .85em;
+}
+.preview li:nth-child(1) .num { background: var(--yellow); }
+.preview li:nth-child(2) .num { background: var(--pink); }
+.preview li:nth-child(3) .num { background: var(--green); }
+
+/* floating emoji confetti on the title */
+.floaty {
+  position: absolute !important;
+  z-index: 0 !important;
+  font-size: clamp(1.6rem, 4vw, 3rem);
+  animation: bob 5s ease-in-out infinite;
+  pointer-events: none;
+  user-select: none;
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0) rotate(-8deg); }
+  50%      { transform: translateY(-18px) rotate(8deg); }
+}
+
+/* ══ SLIDE 2 · Student of the Week ═════════ */
+.split {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(1.5rem, 5vw, 4.5rem);
+  max-width: 1180px;
+  width: 100%;
+}
+.hero-photo {
+  position: relative;
+  justify-self: center;
+  transform: rotate(-2deg);
+}
+.hero-photo img {
+  display: block;
+  height: min(68vh, 640px);
+  aspect-ratio: 3 / 4;
+  width: auto;
+  object-fit: cover;
+  object-position: 55% 45%;
+  border-radius: 30px;
+  border: 8px solid #fff;
+  box-shadow: 0 30px 60px rgba(31,27,61,.22);
+}
+.seal {
+  position: absolute;
+  top: -26px; right: -30px;
+  width: clamp(96px, 13vh, 132px); aspect-ratio: 1;
+  display: grid; place-items: center;
+  text-align: center;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(.8rem, 1.6vh, 1rem);
+  line-height: 1.05;
+  color: #5B3A00;
+  background: radial-gradient(circle at 35% 30%, #FFE69A, var(--yellow) 60%, #F5A400);
+  border-radius: 50%;
+  box-shadow: 0 10px 26px rgba(245,164,0,.45), inset 0 0 0 5px rgba(255,255,255,.55);
+  transform: rotate(12deg);
+  animation: wobble 3s ease-in-out infinite;
+}
+.seal b { display: block; font-size: 2.1em; line-height: 1; }
+@keyframes wobble {
+  0%, 100% { transform: rotate(12deg) scale(1); }
+  50%      { transform: rotate(4deg) scale(1.06); }
+}
+.words { display: grid; gap: clamp(.7rem, 2.4vh, 1.4rem); justify-items: start; }
+.words p { max-width: 30ch; }
+.big-feel {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1.5rem, min(3.2vw, 5vh), 2.6rem);
+}
+
+/* Shimmer button (Magic UI "ShimmerButton") */
+.shiny-btn {
+  position: relative;
+  overflow: hidden;
+  border: 0;
+  cursor: pointer;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1.1rem, min(2.2vw, 3.4vh), 1.6rem);
+  color: #fff;
+  padding: .7em 1.5em;
+  border-radius: 999px;
+  background: var(--ink);
+  box-shadow: 0 10px 26px rgba(31,27,61,.28), inset 0 -3px 0 rgba(0,0,0,.25);
+  transition: transform .15s;
+}
+.shiny-btn::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,.45) 50%, transparent 65%) 0 0 / 250% 100% no-repeat;
+  animation: shimmer 2.6s ease-in-out infinite;
+}
+.shiny-btn:hover  { transform: translateY(-3px) scale(1.03); }
+.shiny-btn:active { transform: translateY(1px) scale(.98); }
+.shiny-btn:focus-visible { outline: 4px solid var(--cyan); outline-offset: 4px; }
+.shiny-btn.gold { background: linear-gradient(135deg, #F5A400, var(--orange)); }
+.shiny-btn.go   { background: linear-gradient(135deg, var(--green), #129B48); }
+
+/* ══ SLIDE 3 · Friends bento ═══════════════ */
+.friends {
+  display: grid;
+  justify-items: center;
+  gap: clamp(.6rem, 2vh, 1.2rem);
+  width: 100%;
+  max-width: 1240px;
+  text-align: center;
+}
+.bento {
+  width: 100%;
+  height: min(56vh, 620px);
+  display: grid;
+  grid-template-columns: 1fr 1.25fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+    "a c c d"
+    "a e b d";
+  gap: clamp(.5rem, 1.2vw, 1rem);
+}
+.tile {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  border: 5px solid #fff;
+  box-shadow: 0 14px 34px rgba(31,27,61,.16);
+  background: var(--line);
+  transition: transform .25s cubic-bezier(.2,.9,.3,1.3), box-shadow .25s;
+}
+.tile:hover { transform: scale(1.04) rotate(var(--r, 0deg)); box-shadow: 0 24px 50px rgba(31,27,61,.26); z-index: 2; }
+.tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tile figcaption {
+  position: absolute;
+  left: 10px; bottom: 10px;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(.85rem, min(1.6vw, 2.4vh), 1.2rem);
+  padding: .3em .8em;
+  border-radius: 999px;
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+  white-space: nowrap;
+}
+.t-a { grid-area: a; --r: -1.5deg; }
+.t-b { grid-area: b; --r: 1.5deg; }
+.t-c { grid-area: c; --r: .8deg; }
+.t-d { grid-area: d; --r: 1.5deg; }
+.t-e { grid-area: e; --r: -1.5deg; }
+.t-a img { object-position: 55% 55%; }
+.t-b img { object-position: 50% 22%; }
+.t-c img { object-position: 50% 40%; }
+.t-d img { object-position: 50% 30%; }
+.t-e img { object-position: 50% 40%; }
+
+/* ══ SLIDE 4 · Athletics carnival ══════════ */
+.carnival {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: clamp(.6rem, 2.2vh, 1.3rem);
+  width: 100%;
+  max-width: 1180px;
+}
+.track {
+  position: relative;
+  width: 100%;
+  border-radius: 26px;
+  padding: clamp(8px, 1.2vh, 14px) 0;
+  background: var(--track);
+  border: 6px solid #fff;
+  box-shadow: 0 20px 44px rgba(226,88,62,.32);
+  overflow: hidden;
+}
+.lane {
+  position: relative;
+  height: clamp(44px, 8.2vh, 76px);
+  border-bottom: 3px dashed rgba(255,255,255,.75);
+}
+.lane:nth-child(4) { border-bottom: 0; }
+.lane-label {
+  position: absolute;
+  left: 12px; top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(.8rem, 1.8vh, 1.05rem);
+  color: rgba(255,255,255,.95);
+  width: 3.4em;
+  text-align: left;
+}
+.lane.me .lane-label {
+  color: var(--track);
+  background: #fff;
+  border-radius: 999px;
+  text-align: center;
+  padding: .1em 0;
+}
+.runner {
+  position: absolute;
+  left: clamp(58px, 7vw, 84px); top: 0; bottom: 0;
+  display: flex; align-items: center;
+  font-size: clamp(30px, 6vh, 56px);
+  line-height: 1;
+  will-change: transform;
+}
+.runner span { display: inline-block; transform: scaleX(-1); }
+.racing .runner span { animation: stride .28s ease-in-out infinite alternate; }
+@keyframes stride {
+  from { transform: scaleX(-1) translateY(0) rotate(-4deg); }
+  to   { transform: scaleX(-1) translateY(-6px) rotate(4deg); }
+}
+.medal {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1rem, 3vh, 1.6rem);
+  color: var(--ink);
+  background: #fff;
+  padding: .2em .9em;
+  border-radius: 999px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.2);
+  white-space: nowrap;
+  transition: transform .4s cubic-bezier(.2,.9,.3,1.6);
+}
+.medal.show { transform: translate(-50%, -50%) scale(1); }
+.finish {
+  position: absolute;
+  top: 0; bottom: 0;
+  right: clamp(22px, 3vw, 40px);
+  width: 22px;
+  background:
+    conic-gradient(#fff 25%, #1F1B3D 0 50%, #fff 0 75%, #1F1B3D 0) 0 0 / 22px 22px;
+  opacity: .95;
+}
+.countdown {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(3rem, 16vh, 9rem);
+  color: #fff;
+  text-shadow: 0 6px 0 rgba(0,0,0,.18);
+  pointer-events: none;
+  z-index: 3;
+}
+.countdown span { animation: zoom .6s cubic-bezier(.2,.9,.3,1.3) both; }
+@keyframes zoom {
+  from { transform: scale(2.2); opacity: 0; }
+  40%  { opacity: 1; }
+  to   { transform: scale(1); opacity: 1; }
+}
+.race-row {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: clamp(.6rem, 2vw, 1.4rem);
+}
+.race-msg {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(1rem, min(2vw, 3vh), 1.4rem);
+  color: var(--muted);
+  min-height: 1.4em;
+}
+.facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(.5rem, 1.4vw, 1rem);
+  width: 100%;
+}
+.fact {
+  display: flex; align-items: center; gap: .6em;
+  text-align: left;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(1rem, min(2vw, 3.1vh), 1.5rem);
+  padding: .6em .9em;
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 20px;
+  box-shadow: 0 8px 22px rgba(31,27,61,.07);
+}
+.fact .ico {
+  flex: none;
+  display: grid; place-items: center;
+  width: 2em; height: 2em;
+  border-radius: 14px;
+  font-size: 1.1em;
+}
+.fact:nth-child(1) .ico { background: #FFE4DD; }
+.fact:nth-child(2) .ico { background: #FFF1CC; }
+.fact:nth-child(3) .ico { background: #DCF7E5; }
+
+/* ── Confetti canvas ───────────────────────── */
+#confetti {
+  position: fixed; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 60;
+}
+
+/* ── Nav ───────────────────────────────────── */
+.nav {
+  position: fixed;
+  bottom: clamp(12px, 2.2vw, 22px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex; align-items: center; gap: 12px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.85);
+  backdrop-filter: blur(10px);
+  border: 1.5px solid var(--line);
+  box-shadow: 0 8px 26px rgba(31,27,61,.14);
+  z-index: 50;
+}
+.nav button {
+  border: 0; cursor: pointer; font: inherit;
+  background: #F3EEE6;
+  color: var(--ink);
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  font-size: 1.15rem;
+  display: grid; place-items: center;
+  transition: transform .12s, background .12s, color .12s;
+}
+.nav button:hover:not(:disabled) { background: var(--pink); color: #fff; transform: translateY(-2px); }
+.nav button:disabled { opacity: .3; cursor: default; }
+.nav button:focus-visible, .dots button:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
+.dots { display: flex; gap: 9px; }
+.dots button {
+  width: 11px; height: 11px; padding: 0;
+  border-radius: 50%;
+  background: #DDD4C6;
+  transition: background .18s, transform .18s, width .18s;
+}
+.dots button[aria-current="true"] { background: var(--pink); width: 26px; border-radius: 999px; }
+
+/* ── Responsive ────────────────────────────── */
+@media (max-width: 860px) {
+  .split { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 2rem; }
+  .words { justify-items: center; }
+  .hero-photo img { height: min(52vh, 460px); }
+  .seal { right: -14px; top: -20px; }
+  .bento {
+    height: auto;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: none;
+    grid-auto-rows: 38vw;
+    grid-template-areas:
+      "c c"
+      "a d"
+      "a d"
+      "e b";
+  }
+  .facts { grid-template-columns: 1fr; }
+  .slide.active { place-items: start center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<!-- ══ 1 · Title ══════════════════════════════ -->
+<section class="slide active" id="s1" aria-label="Title">
+  <div class="blob" style="width:42vw;height:42vw;left:-10vw;top:-12vw;background:#FFB3D1"></div>
+  <div class="blob" style="width:38vw;height:38vw;right:-8vw;top:10vh;background:#C7B5FF;animation-delay:-4s"></div>
+  <div class="blob" style="width:34vw;height:34vw;left:30vw;bottom:-18vw;background:#FFE08A;animation-delay:-8s"></div>
+
+  <span class="floaty" style="left:8%;top:14%" aria-hidden="true">⭐</span>
+  <span class="floaty" style="right:9%;top:18%;animation-delay:-1.5s" aria-hidden="true">🎉</span>
+  <span class="floaty" style="left:12%;bottom:22%;animation-delay:-3s" aria-hidden="true">💖</span>
+  <span class="floaty" style="right:12%;bottom:24%;animation-delay:-2.2s" aria-hidden="true">🏃‍♀️</span>
+
+  <div class="title-stack">
+    <span class="chip pop"><span class="dot"></span>Class 2B · Topic Talk</span>
+    <h1 class="pop">
+      <span class="t-small">Chloe's</span>
+      <span class="sparkles" data-sparkles="7"><span class="t-big aurora">Highlights</span></span>
+      <span class="t-small">from Year 2</span>
+    </h1>
+    <ul class="preview pop">
+      <li><span class="num">1</span>Student of the Week</li>
+      <li><span class="num">2</span>My Friends</li>
+      <li><span class="num">3</span>Athletics Carnival</li>
+    </ul>
+    <p class="byline pop">by Chloe Dunlop</p>
+  </div>
+</section>
+
+<!-- ══ 2 · Student of the Week ════════════════ -->
+<section class="slide" id="s2" aria-label="Highlight 1: Student of the Week" data-confetti="gold">
+  <div class="blob" style="width:44vw;height:44vw;right:-12vw;top:-14vw;background:#FFE08A"></div>
+  <div class="blob" style="width:30vw;height:30vw;left:-8vw;bottom:-10vw;background:#FFC7A8;animation-delay:-6s"></div>
+
+  <div class="split">
+    <div class="hero-photo pop">
+      <div class="beam">
+        <img src="images/student-of-the-week.jpg" alt="Chloe holding her Student of the Week certificate, standing next to her mum">
+      </div>
+      <div class="seal" aria-hidden="true"><div><b>⭐</b>Student<br>of the Week</div></div>
+    </div>
+
+    <div class="words">
+      <span class="chip pop"><span class="dot" style="background:var(--yellow)"></span>Highlight 1</span>
+      <h2 class="pop">I got <span class="sparkles" data-sparkles="5"><span class="aurora aurora-gold">Student of the Week!</span></span></h2>
+      <p class="lede pop">My name was on a special certificate, and Mum came to see me get it.</p>
+      <p class="big-feel pop">I felt SO proud! 🥰</p>
+      <button class="shiny-btn gold pop" type="button" data-burst="gold">⭐ Tap for stars!</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 3 · My friends ═════════════════════════ -->
+<section class="slide" id="s3" aria-label="Highlight 2: Being with my friends">
+  <div class="blob" style="width:40vw;height:40vw;left:-12vw;top:-10vw;background:#FFB3D1"></div>
+  <div class="blob" style="width:36vw;height:36vw;right:-10vw;bottom:-14vw;background:#B8E6FF;animation-delay:-5s"></div>
+
+  <div class="friends">
+    <span class="chip pop"><span class="dot"></span>Highlight 2</span>
+    <h2 class="pop">Being with my <span class="sparkles" data-sparkles="5"><span class="aurora">friends!</span></span></h2>
+    <p class="lede pop">My friends make everything more fun. Here are some of my favourite days together.</p>
+    <div class="bento pop">
+      <figure class="tile t-a"><img src="images/halloween.jpg" alt="Chloe and a friend dressed up for Halloween with pumpkin buckets"><figcaption>Trick or treat! 🎃</figcaption></figure>
+      <figure class="tile t-c"><img src="images/bench.jpg" alt="Chloe sitting on a wall smiling with two friends"><figcaption>Hanging out 😄</figcaption></figure>
+      <figure class="tile t-d"><img src="images/school.jpg" alt="Chloe and two friends in school uniform with backpacks"><figcaption>Off to school 🎒</figcaption></figure>
+      <figure class="tile t-e"><img src="images/sprite.jpg" alt="Chloe and a friend taking a selfie holding up green drink bottles"><figcaption>Cheers! 🥤</figcaption></figure>
+      <figure class="tile t-b"><img src="images/swim.jpg" alt="Chloe and a friend in swimmers by the harbour holding green baskets"><figcaption>Swim day 💦</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 4 · Athletics carnival ═════════════════ -->
+<section class="slide" id="s4" aria-label="Highlight 3: The athletics carnival">
+  <div class="blob" style="width:42vw;height:42vw;left:-10vw;top:-14vw;background:#BFF0CF"></div>
+  <div class="blob" style="width:38vw;height:38vw;right:-10vw;bottom:-14vw;background:#FFC7A8;animation-delay:-7s"></div>
+
+  <div class="carnival">
+    <span class="chip pop"><span class="dot" style="background:var(--green)"></span>Highlight 3</span>
+    <h2 class="pop">The <span class="sparkles" data-sparkles="5"><span class="aurora aurora-race">Athletics Carnival!</span></span></h2>
+
+    <div class="track pop" id="track">
+      <div class="lane me"><span class="lane-label">Me!</span><span class="runner"><span>🏃‍♀️</span></span><span class="medal">🥇 Winner!</span></div>
+      <div class="lane"><span class="lane-label">2</span><span class="runner"><span>🏃</span></span><span class="medal">🥇 Winner!</span></div>
+      <div class="lane"><span class="lane-label">3</span><span class="runner"><span>🏃‍♂️</span></span><span class="medal">🥇 Winner!</span></div>
+      <div class="lane"><span class="lane-label">4</span><span class="runner"><span>🦘</span></span><span class="medal">🥇 Winner!</span></div>
+      <div class="finish" aria-hidden="true"></div>
+      <div class="countdown" id="countdown" aria-live="assertive"></div>
+    </div>
+
+    <div class="race-row pop">
+      <button class="shiny-btn go" type="button" id="go">Ready, set, GO! 🏁</button>
+      <span class="race-msg" id="raceMsg" aria-live="polite">Who will win? Let's race!</span>
+    </div>
+
+    <div class="facts pop">
+      <div class="fact"><span class="ico">🏃‍♀️</span>I ran as fast as I could!</div>
+      <div class="fact"><span class="ico">📣</span>I cheered for my friends.</div>
+      <div class="fact"><span class="ico">💪</span>I tried my very best.</div>
+    </div>
+  </div>
+</section>
+
+<nav class="nav" aria-label="Slides">
+  <button id="prev" type="button" aria-label="Previous slide">&#8592;</button>
+  <div class="dots" id="dots"></div>
+  <button id="next" type="button" aria-label="Next slide">&#8594;</button>
+  <button id="full" type="button" aria-label="Full screen" title="Full screen (F)">&#x26F6;</button>
+</nav>
+
+<script>
+(function () {
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── Sparkles ─────────────────────────────── */
+  var sparkleColours = ['#FFC23C', '#FF4F93', '#8B5CF6', '#1FC8E3'];
+  document.querySelectorAll('[data-sparkles]').forEach(function (el) {
+    var n = +el.getAttribute('data-sparkles');
+    for (var i = 0; i < n; i++) {
+      var s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      s.setAttribute('viewBox', '0 0 24 24');
+      s.setAttribute('aria-hidden', 'true');
+      s.classList.add('sparkle');
+      s.innerHTML = '<path fill="' + sparkleColours[i % 4] + '" d="M12 0c.6 6.4 5.6 11.4 12 12-6.4.6-11.4 5.6-12 12-.6-6.4-5.6-11.4-12-12C6.4 11.4 11.4 6.4 12 0z"/>';
+      s.style.left = (Math.random() * 100) + '%';
+      s.style.top = (Math.random() * 100) + '%';
+      s.style.setProperty('--s', (12 + Math.random() * 16) + 'px');
+      s.style.setProperty('--d', (1.4 + Math.random() * 1.4) + 's');
+      s.style.setProperty('--delay', (Math.random() * 2) + 's');
+      s.style.marginLeft = '-12px';
+      s.style.marginTop = '-12px';
+      el.appendChild(s);
+    }
+  });
+
+  /* ── Confetti ─────────────────────────────── */
+  var canvas = document.getElementById('confetti');
+  var ctx = canvas.getContext('2d');
+  var bits = [];
+  var running = false;
+  var palettes = {
+    party: ['#FF4F93', '#8B5CF6', '#3B82F6', '#1FC8E3', '#FFC23C', '#FF8A3D', '#22C55E'],
+    gold:  ['#FFC23C', '#F5A400', '#FFE69A', '#FF8A3D', '#FFFFFF']
+  };
+
+  function size() {
+    var dpr = window.devicePixelRatio || 1;
+    canvas.width = innerWidth * dpr;
+    canvas.height = innerHeight * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  size();
+  window.addEventListener('resize', size);
+
+  function burst(kind, x, y) {
+    if (reduceMotion) return;
+    var colours = palettes[kind] || palettes.party;
+    var ox = x == null ? innerWidth / 2 : x;
+    var oy = y == null ? innerHeight * 0.45 : y;
+    for (var i = 0; i < 160; i++) {
+      var a = Math.random() * Math.PI * 2;
+      var sp = 4 + Math.random() * 10;
+      bits.push({
+        x: ox, y: oy,
+        vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 6,
+        r: Math.random() * Math.PI, vr: (Math.random() - .5) * .3,
+        w: 6 + Math.random() * 8, h: 4 + Math.random() * 6,
+        c: colours[i % colours.length],
+        star: kind === 'gold' && i % 3 === 0,
+        life: 1
+      });
+    }
+    if (!running) { running = true; requestAnimationFrame(tick); }
+  }
+
+  function star(cx, cy, r) {
+    ctx.beginPath();
+    for (var i = 0; i < 10; i++) {
+      var rr = i % 2 ? r * .45 : r;
+      var a = i * Math.PI / 5 - Math.PI / 2;
+      ctx.lineTo(cx + Math.cos(a) * rr, cy + Math.sin(a) * rr);
+    }
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  function tick() {
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    bits = bits.filter(function (b) { return b.life > 0 && b.y < innerHeight + 40; });
+    bits.forEach(function (b) {
+      b.vy += .28; b.vx *= .985; b.vy *= .985;
+      b.x += b.vx; b.y += b.vy; b.r += b.vr;
+      b.life -= .006;
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, Math.min(1, b.life * 1.5));
+      ctx.translate(b.x, b.y);
+      ctx.rotate(b.r);
+      ctx.fillStyle = b.c;
+      if (b.star) star(0, 0, b.w);
+      else ctx.fillRect(-b.w / 2, -b.h / 2, b.w, b.h);
+      ctx.restore();
+    });
+    if (bits.length) requestAnimationFrame(tick);
+    else { running = false; ctx.clearRect(0, 0, innerWidth, innerHeight); }
+  }
+
+  document.querySelectorAll('[data-burst]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var r = btn.getBoundingClientRect();
+      burst(btn.getAttribute('data-burst'), r.left + r.width / 2, r.top);
+    });
+  });
+
+  /* ── Race ─────────────────────────────────── */
+  var track = document.getElementById('track');
+  var goBtn = document.getElementById('go');
+  var msg = document.getElementById('raceMsg');
+  var countdown = document.getElementById('countdown');
+  var lanes = Array.prototype.slice.call(track.querySelectorAll('.lane'));
+  var racing = false;
+  var names = ['I won', 'Runner 2 won', 'Runner 3 won', 'The kangaroo won'];
+
+  function resetRace() {
+    lanes.forEach(function (lane) {
+      var r = lane.querySelector('.runner');
+      r.getAnimations().forEach(function (a) { a.cancel(); });
+      r.style.transform = '';
+      lane.querySelector('.medal').classList.remove('show');
+    });
+    track.classList.remove('racing');
+  }
+
+  function count(steps, done) {
+    if (!steps.length) { countdown.innerHTML = ''; done(); return; }
+    countdown.innerHTML = '<span>' + steps[0] + '</span>';
+    setTimeout(function () { count(steps.slice(1), done); }, steps.length === 1 ? 450 : 650);
+  }
+
+  goBtn.addEventListener('click', function () {
+    if (racing) return;
+    racing = true;
+    resetRace();
+    goBtn.disabled = true;
+    msg.textContent = 'On your marks…';
+    count(['3', '2', '1', 'GO!'], function () {
+      track.classList.add('racing');
+      msg.textContent = 'Go, go, go!';
+      var finishX = track.querySelector('.finish').offsetLeft;
+      var times = lanes.map(function () { return 2200 + Math.random() * 1400; });
+      var winner = times.indexOf(Math.min.apply(null, times));
+      lanes.forEach(function (lane, i) {
+        var r = lane.querySelector('.runner');
+        var dist = finishX - r.offsetLeft - r.offsetWidth - 6;
+        var anim = r.animate(
+          [{ transform: 'translateX(0)' }, { transform: 'translateX(' + dist + 'px)' }],
+          { duration: reduceMotion ? 1 : times[i], easing: 'cubic-bezier(.35,.05,.4,1)', fill: 'forwards' }
+        );
+        if (i === winner) {
+          anim.onfinish = function () {
+            lane.querySelector('.medal').classList.add('show');
+            var rect = lane.getBoundingClientRect();
+            burst('party', rect.left + rect.width / 2, rect.top + rect.height / 2);
+            msg.textContent = names[i] + '! 🎉';
+          };
+        }
+      });
+      setTimeout(function () {
+        track.classList.remove('racing');
+        racing = false;
+        goBtn.disabled = false;
+        goBtn.textContent = 'Race again! 🔁';
+      }, Math.max.apply(null, times) + 100);
+    });
+  });
+
+  /* ── Slides ───────────────────────────────── */
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var prev = document.getElementById('prev');
+  var next = document.getElementById('next');
+  var dotWrap = document.getElementById('dots');
+  var current = -1;
+
+  slides.forEach(function (s, i) {
+    var d = document.createElement('button');
+    d.type = 'button';
+    d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+    d.addEventListener('click', function () { show(i); });
+    dotWrap.appendChild(d);
+  });
+  var dots = Array.prototype.slice.call(dotWrap.children);
+
+  function show(i) {
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    if (i === current) return;
+    current = i;
+    slides.forEach(function (s, n) { s.classList.toggle('active', n === current); });
+    dots.forEach(function (d, n) { d.setAttribute('aria-current', n === current ? 'true' : 'false'); });
+    prev.disabled = current === 0;
+    next.disabled = current === slides.length - 1;
+    slides[current].scrollTop = 0;
+    var c = slides[current].getAttribute('data-confetti');
+    if (current === 0) setTimeout(function () { burst('party'); }, 350);
+    else if (c) setTimeout(function () { burst(c); }, 450);
+  }
+
+  prev.addEventListener('click', function () { show(current - 1); });
+  next.addEventListener('click', function () { show(current + 1); });
+
+  var full = document.getElementById('full');
+  function toggleFull() {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen && document.documentElement.requestFullscreen();
+    else document.exitFullscreen && document.exitFullscreen();
+  }
+  full.addEventListener('click', toggleFull);
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { show(current + 1); e.preventDefault(); }
+    if (e.key === 'ArrowLeft'  || e.key === 'PageUp')                    { show(current - 1); e.preventDefault(); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End')  show(slides.length - 1);
+    if (e.key === 'f' || e.key === 'F') toggleFull();
+  });
+
+  // Tap the right or left edge of the screen to move (easy on a tablet).
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('button, .nav, .tile')) return;
+    var x = e.clientX / window.innerWidth;
+    if (x > 0.8) show(current + 1);
+    else if (x < 0.2) show(current - 1);
+  });
+
+  // Swipe on phones/tablets
+  var sx = null;
+  document.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', function (e) {
+    if (sx == null) return;
+    var dx = e.changedTouches[0].clientX - sx;
+    if (Math.abs(dx) > 60) show(current + (dx < 0 ? 1 : -1));
+    sx = null;
+  });
+
+  // #2 opens slide 2, so a link can jump straight to a highlight
+  show((parseInt(location.hash.slice(1), 10) || 1) - 1);
+})();
+</script>
+</body>
+</html>
