@@ -208,7 +208,9 @@ h2 {
 .title-stack .t-big {
   display: inline-block;
   font-size: clamp(3.4rem, min(13vw, 19vh), 10.5rem);
-  padding: 0 .06em .04em;
+  line-height: 1.1;
+  padding: 0 .06em .14em;
+  margin-bottom: -.12em;
 }
 .byline {
   font-family: var(--display);
@@ -279,7 +281,7 @@ h2 {
   50%      { transform: rotate(4deg) scale(1.06); }
 }
 .words { display: grid; gap: clamp(.7rem, 2.4vh, 1.4rem); justify-items: start; }
-.words p { max-width: 30ch; }
+.words p { max-width: 34ch; text-wrap: pretty; }
 .big-feel {
   font-family: var(--display);
   font-weight: 700;
@@ -510,6 +512,30 @@ h2 {
 .fact:nth-child(2) .ico { background: #FFF1CC; }
 .fact:nth-child(3) .ico { background: #DCF7E5; }
 
+.thanks {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: clamp(.6rem, 2.4vh, 1.4rem);
+}
+.thanks h2 {
+  font-size: clamp(3.4rem, min(12vw, 18vh), 9.5rem);
+  line-height: 1.1;
+}
+.thanks h2 .aurora { display: inline-block; padding: 0 .06em .14em; margin-bottom: -.12em; }
+.ask {
+  display: inline-flex; align-items: center; gap: .4em;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1.8rem, min(5vw, 7.5vh), 3.8rem);
+}
+.ask .hand { display: inline-block; transform-origin: 70% 90%; animation: wave 1.6s ease-in-out infinite; }
+@keyframes wave {
+  0%, 60%, 100% { transform: rotate(0deg); }
+  15%, 45% { transform: rotate(16deg); }
+  30% { transform: rotate(-8deg); }
+}
+
 /* ── Confetti canvas ───────────────────────── */
 #confetti {
   position: fixed; inset: 0;
@@ -629,7 +655,7 @@ h2 {
     <div class="words">
       <span class="chip pop"><span class="dot" style="background:var(--yellow)"></span>Highlight 1</span>
       <h2 class="pop">I got <span class="sparkles" data-sparkles="5"><span class="aurora aurora-gold">Student of the Week!</span></span></h2>
-      <p class="lede pop">My name was on a special certificate, and Mum came to see me get it.</p>
+      <p class="lede pop">My name was on a special certificate, and Mum and Dad came to see me get it.</p>
       <p class="big-feel pop">I felt SO proud! 🥰</p>
       <button class="shiny-btn gold pop" type="button" data-burst="gold">⭐ Tap for stars!</button>
     </div>
@@ -684,6 +710,24 @@ h2 {
       <div class="fact"><span class="ico">📣</span>I cheered for my friends.</div>
       <div class="fact"><span class="ico">💪</span>I tried my very best.</div>
     </div>
+  </div>
+</section>
+
+<!-- ══ 5 · Thank you ═════════════════════════ -->
+<section class="slide" id="s5" aria-label="Thank you, any questions?" data-confetti="party">
+  <div class="blob" style="width:42vw;height:42vw;left:-10vw;top:-12vw;background:#FFB3D1"></div>
+  <div class="blob" style="width:38vw;height:38vw;right:-8vw;top:10vh;background:#C7B5FF;animation-delay:-4s"></div>
+  <div class="blob" style="width:34vw;height:34vw;left:30vw;bottom:-18vw;background:#BFF0CF;animation-delay:-8s"></div>
+
+  <span class="floaty" style="left:9%;top:16%" aria-hidden="true">🎉</span>
+  <span class="floaty" style="right:10%;top:20%;animation-delay:-1.5s" aria-hidden="true">⭐</span>
+  <span class="floaty" style="left:13%;bottom:22%;animation-delay:-3s" aria-hidden="true">🏅</span>
+  <span class="floaty" style="right:12%;bottom:24%;animation-delay:-2.2s" aria-hidden="true">💖</span>
+
+  <div class="thanks">
+    <span class="chip pop"><span class="dot"></span>The end</span>
+    <h2 class="pop"><span class="sparkles" data-sparkles="8"><span class="aurora">Thank you!</span></span></h2>
+    <p class="ask pop">Any questions? <span class="hand" aria-hidden="true">🙋‍♀️</span></p>
   </div>
 </section>
 
