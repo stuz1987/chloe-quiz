@@ -216,33 +216,6 @@ h2 {
   font-size: clamp(1.1rem, min(2.6vw, 4vh), 2rem);
   color: var(--muted);
 }
-.preview {
-  display: flex; flex-wrap: wrap; justify-content: center;
-  gap: clamp(.5rem, 1.4vw, 1rem);
-  margin-top: clamp(.2rem, 1.5vh, 1rem);
-}
-.preview li {
-  list-style: none;
-  display: inline-flex; align-items: center; gap: .55em;
-  font-family: var(--display);
-  font-weight: 600;
-  font-size: clamp(1rem, min(2vw, 3vh), 1.45rem);
-  padding: .5em 1.1em .5em .55em;
-  background: var(--card);
-  border: 1.5px solid var(--line);
-  border-radius: 999px;
-  box-shadow: 0 8px 22px rgba(31,27,61,.08);
-}
-.preview .num {
-  display: grid; place-items: center;
-  width: 1.8em; height: 1.8em;
-  border-radius: 50%;
-  color: #fff;
-  font-size: .85em;
-}
-.preview li:nth-child(1) .num { background: var(--yellow); }
-.preview li:nth-child(2) .num { background: var(--pink); }
-.preview li:nth-child(3) .num { background: var(--green); }
 
 /* floating emoji confetti on the title */
 .floaty {
@@ -354,11 +327,11 @@ h2 {
   width: 100%;
   height: min(56vh, 620px);
   display: grid;
-  grid-template-columns: 1fr 1.25fr 1fr 1fr;
+  grid-template-columns: 1fr 1.25fr 1.25fr 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   grid-template-areas:
-    "a c c d"
-    "a e b d";
+    "a g g e d"
+    "c g g b d";
   gap: clamp(.5rem, 1.2vw, 1rem);
 }
 .tile {
@@ -390,11 +363,13 @@ h2 {
 .t-c { grid-area: c; --r: .8deg; }
 .t-d { grid-area: d; --r: 1.5deg; }
 .t-e { grid-area: e; --r: -1.5deg; }
-.t-a img { object-position: 55% 55%; }
+.t-g { grid-area: g; --r: -.8deg; }
+.t-a img { object-position: 55% 45%; }
 .t-b img { object-position: 50% 22%; }
 .t-c img { object-position: 50% 40%; }
 .t-d img { object-position: 50% 30%; }
 .t-e img { object-position: 50% 40%; }
+.t-g img { object-position: 50% 56%; }
 
 /* ══ SLIDE 4 · Athletics carnival ══════════ */
 .carnival {
@@ -592,6 +567,8 @@ h2 {
     grid-template-rows: none;
     grid-auto-rows: 38vw;
     grid-template-areas:
+      "g g"
+      "g g"
       "c c"
       "a d"
       "a d"
@@ -632,11 +609,6 @@ h2 {
       <span class="sparkles" data-sparkles="7"><span class="t-big aurora">Highlights</span></span>
       <span class="t-small">from Year 2</span>
     </h1>
-    <ul class="preview pop">
-      <li><span class="num">1</span>Student of the Week</li>
-      <li><span class="num">2</span>My Friends</li>
-      <li><span class="num">3</span>Athletics Carnival</li>
-    </ul>
     <p class="byline pop">by Chloe Dunlop</p>
   </div>
 </section>
@@ -674,6 +646,7 @@ h2 {
     <h2 class="pop">Being with my <span class="sparkles" data-sparkles="5"><span class="aurora">friends!</span></span></h2>
     <p class="lede pop">My friends make everything more fun. Here are some of my favourite days together.</p>
     <div class="bento pop">
+      <figure class="tile t-g"><img src="images/birthday-party.jpg" alt="Chloe with a big group of friends at a birthday party, all with sparkly face paint"><figcaption>Birthday party! 🎉</figcaption></figure>
       <figure class="tile t-a"><img src="images/halloween.jpg" alt="Chloe and a friend dressed up for Halloween with pumpkin buckets"><figcaption>Trick or treat! 🎃</figcaption></figure>
       <figure class="tile t-c"><img src="images/bench.jpg" alt="Chloe sitting on a wall smiling with two friends"><figcaption>Hanging out 😄</figcaption></figure>
       <figure class="tile t-d"><img src="images/school.jpg" alt="Chloe and two friends in school uniform with backpacks"><figcaption>Off to school 🎒</figcaption></figure>
